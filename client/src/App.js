@@ -1,28 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './images/Hawkshot Logo.svg';
 import './App.css';
 import cards from './data_dragon/en_us/data/set1-en_us'
+import {Container, Row, Col, Image} from 'react-bootstrap'
 
 function App() {
-
-  const championCardGridStyle = {
-    display: 'grid',
-    justify_content: 'space-evenly',
-    grid_template_columns: '50px 50px 50px', /*Make the grid smaller than the container*/
-    grid_gap: '10px',
-    background_color: '#2196F3',
-    padding: '10px',
-    background: '#000000'
-  }
-
-  const getChamps = () => {
-    const championCards = cards.filter(card => card.supertype === 'Champion');
+  const getCards = (cardType) => {
+    const championCards = cards.filter(card => card.type === cardType);
     const divs = championCards.map(card => {
       return <div key = {card.cardCode} style = {{display: 'inline-grid'}}>
-        <img
+        <Image
           src = {require(`./data_dragon/en_us/img/cards/${card.cardCode}.png`)} 
           alt = "Cannot load"
-          height = {200}
+          fluid
         />
         <p>
           {card.name}
@@ -35,20 +25,53 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <div className = "ChampionCardGrid" style = {championCardGridStyle}>
-          {getChamps()}
-        </div>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <Container>
+          <Row>
+            <Col sm = {true}>
+              <h1>Cards</h1>
+            </Col>
+            <Col sm = {true}>
+              <Image src = {logo} alt = "could not find" height = "100"/>
+            </Col>
+            <Col sm = {true}>
+              <h1>Hints</h1>
+            </Col>
+          </Row>
+        </Container>
       </header>
+      <div>
+        <Row>
+          <Col sm = {true}>
+            <input type = "search" placeholder = "Search for a card" style = {{width: "100%"}}/>
+          </Col>
+          <Col sm = {1}>
+            <button type = "button">
+              Submit a Hint!
+            </button>
+          </Col>
+        </Row>
+        <Row>
+          <Col sm = {true}>
+            {getCards('Unit')}
+          </Col>
+          <Col sm = {true}>
+            {getCards('Spell')}
+          </Col>
+          <Col sm = {true}>
+            {getCards('Unit')}
+          </Col>
+          <Col sm = {true}>
+            {getCards('Spell')}
+          </Col>
+          <Col sm = {true}>
+            {getCards('Unit')}
+          </Col>
+          <Col sm = {true}>
+            {getCards('Spell')}
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }
