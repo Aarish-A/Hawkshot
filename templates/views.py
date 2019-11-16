@@ -5,6 +5,7 @@ from flask import render_template, request, Response
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
+<<<<<<< HEAD
      return render_template('index.html')
 
 @app.route('/api/hints', methods=['POST'])
@@ -31,3 +32,6 @@ def get_hint():
 def put_hint(hintId):
     #templates.api.updateHint(hintId, type='')
     return 'bruh momento'
+=======
+     return render_template('index.html')
+>>>>>>> 3d1d664d5e46af1bac2af58b3992120c8216275f
