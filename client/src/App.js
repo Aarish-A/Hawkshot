@@ -19,8 +19,11 @@ import './App.css';
 /* Riot API and DataDragon Dependencies */
 import cards from './data_dragon/en_us/data/set1-en_us'
 
-const TestComponent = ({text}) => {
-  return <p>{text}</p>
+const TestComponent = ({faction}) => {
+  const allCards = cards.filter(card => card.region === faction).map(card => <p>{card.name}</p>)
+  return allCards
+  
+  // <p>{text}</p>
 }
 
 
@@ -56,7 +59,7 @@ const App = () => {
               </Nav>
             </Navbar>
           </div>
-          <Route exact path = '/' render = {() => <TestComponent text = 'Hawkshot'/>} />
+          <Route exact path = '/' render = {() => <TestComponent faction = 'Shadow Isles'/>} />
           <Route exact path = '/cards' render = {() => <TestComponent text = 'Cards'/>} />
           <Route exact path = '/hints' render = {() => <TestComponent text = 'Hints'/>} />
         </div>
