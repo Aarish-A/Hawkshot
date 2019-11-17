@@ -1,5 +1,5 @@
 /* React Dependencies */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 /* React-Bootstrap Dependencies */
 import {
@@ -12,7 +12,20 @@ import {
     ButtonToolbar,
 } from 'react-bootstrap'
 
+import hintService from '../../services/hints'
+
 const Home = () => {
+
+   const [hints, setHints] = useState([])
+
+   useEffect(() => {
+      hintService
+         .get()
+         .then(initialHints => setHints(initialHints.hints))
+   }, [])
+
+   const showHints = () => hints.map(hint => <p>{hint.content}</p>)
+
    return(
       <>
          <div>
@@ -39,6 +52,9 @@ const Home = () => {
                   </ButtonToolbar>
                </Row>
             </Container>
+         </div>
+         <div>
+            {showHints()}
          </div>
       </>
     )
