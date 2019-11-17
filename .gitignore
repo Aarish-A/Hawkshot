@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
 venv
@@ -10,9 +10,9 @@ venv
 /coverage
 
 # production
-/build
+build/
 *.pyc
-/__pycache__/
+__pycache__/
 
 # misc
 .DS_Store
