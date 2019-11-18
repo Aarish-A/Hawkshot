@@ -13,7 +13,7 @@ def index(path):
 
 @app.route('/api/hints', methods=['POST'])
 def post_hint():
-    #verify firebase auth
+    # verify firebase auth
     id_token = request.headers['Authorization'].split(' ').pop()
     print(id_token)
     claims = google.oauth2.id_token.verify_firebase_token(id_token, HTTP_REQUEST)
