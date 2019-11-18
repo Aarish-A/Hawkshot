@@ -19,8 +19,11 @@ const HintBlock = ({hint}) => {
                   }
                </Col>
                <Col style = {{border: '1px solid black'}}>
-                  <Row style = {{border: '1px solid black', height: '82.5%'}}>
+                  <Row style = {{border: '1px solid black', height: '75%'}}>
                      <p>{hint.content}</p>
+                  </Row>
+                  <Row style = {{border: '1px solid black', height: '7.5%', textAlign: 'right'}}>
+                     <p style = {{position: 'absolute', right: '5px'}}>{hint.ownerId}</p>
                   </Row>
                   <Row style = {{border: '1px solid black', height: '17.5%'}}> 
                      <Button>
@@ -31,7 +34,7 @@ const HintBlock = ({hint}) => {
                         Upvote Helpful
                      </Button>
                      <h5>{hint.helpful}</h5>
-                     <Button>
+                     <Button style = {{position: 'absolute', right: '0px', height: '17%'}}>
                         Report
                      </Button>
                   </Row>

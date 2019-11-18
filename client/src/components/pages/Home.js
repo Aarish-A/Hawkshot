@@ -20,37 +20,41 @@ import HintBlock from '../HintBlock'
 import hintService from '../../services/hints'
 
 const Home = () => {
-   const [sort, setSort] = useState({order: 'popular', type: 'hint'})
+   const [sort, setSort] = useState({category: 'all', order: 'popular', type: 'hint'})
    const [hints, setHints] = useState([])
 
    useEffect(() => {
-      hintService
-         .get({limit: 50})
-         .then(initialHints => setHints(initialHints.hints))
+      // hintService
+         // .get({limit: 50})
+         // .then(initialHints => setHints(initialHints.hints))
    }, [])
 
    const showHints = () => {
-      hints.map(hint => 
-         <HintBlock 
-            key = {hint.id} 
-            hint = {hint}
-         />
-      )
-   }
+      // hints.
+         // .sort((a, b) => {
 
-   /*
-      <HintBlock
-         key = hint.id
-         hint = ''
-         updateVote 
-      />
-   */
+         // }
+         // )
+         // .map(hint => 
+            // <HintBlock 
+               // key = {hint.id} 
+               // hint = {hint}
+            // />
+         // )
+   }
 
    /*
       <CardBlock
 
       />
    */
+
+   const changeSort = newSort => () => {   
+      setSort({
+         ...sort,
+         newSort
+      })
+   }
 
    const uploadHint = event => {
       event.preventDefault()
@@ -77,18 +81,34 @@ const Home = () => {
                   <h3>Sort by:</h3>
                   <ButtonToolbar>
                      <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary'>All</Button>
-                        <Button variant = 'secondary'>Funny</Button>
-                        <Button variant = 'secondary'>Helpful</Button>
+                        <Button variant = 'secondary' onClick = {changeSort({category : 'all'})}>
+                           All
+                        </Button>
+                        <Button variant = 'secondary' onClick = {changeSort({category : 'funny'})}>
+                           Funny
+                        </Button>
+                        <Button variant = 'secondary' onClick = {changeSort({category : 'helpful'})}>
+                           Helpful
+                        </Button>
                      </ButtonGroup>
                      <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary'>Popular</Button>
-                        <Button variant = 'secondary'>Recent</Button>
-                        <Button variant = 'secondary'>Trending</Button>
+                        <Button variant = 'secondary' onClick = {changeSort({order : 'popular'})}>
+                           Popular
+                        </Button>
+                        <Button variant = 'secondary' onClick = {changeSort({order : 'recent'})}>
+                           Recent
+                        </Button>
+                        <Button variant = 'secondary' onClick = {changeSort({order : 'trending'})}>
+                           Trending
+                        </Button>
                      </ButtonGroup>
                      <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary'>All Cards</Button>
-                        <Button variant = 'secondary'>All Hints</Button>
+                        <Button variant = 'secondary' onClick = {changeSort({type : 'hints'})}>
+                           All Hints
+                        </Button>
+                        <Button variant = 'secondary' onClick = {changeSort({type: 'cards'})}>
+                           All Cards
+                        </Button>
                      </ButtonGroup>
                   </ButtonToolbar>
                </Row>
@@ -96,7 +116,7 @@ const Home = () => {
          </div>
          <div>
             <Container fluid>
-               <Row style = {{overflowY: 'scroll', height: '45%'}}>
+               <Row>
                   {                     
                      hints.map(hint => 
                         <div style = {{width: '50%'}}>
