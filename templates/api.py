@@ -2,7 +2,7 @@ import firebase_admin, time
 from firebase_admin import credentials, firestore
 from google.cloud.firestore_v1 import transforms
 
-cred = credentials.Certificate("hawkshot-e7e56-firebase-adminsdk-1zawp-37a5fbdce5.json")
+cred = credentials.Certificate("hawkshot-e7e56-firebase-adminsdk-1zawp-35a7f1dc88.json")
 firebase_admin.initialize_app(cred, {
     'projectId': "hawkshot-e7e56",
 })
