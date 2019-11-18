@@ -25,14 +25,14 @@ const Home = () => {
 
    useEffect(() => {
       hintService
-         .get({limit: 50})
+         .get({limit: 5})
          .then(initialHints => setHints(initialHints.hints))
    }, [])
 
    const showHints = () => {
-      hints.map(hint => 
-         <HintBlock 
-            key = {hint.id} 
+      hints.map(hint =>
+         <HintBlock
+            key = {hint.id}
             hint = {hint}
          />
       )
@@ -42,7 +42,7 @@ const Home = () => {
       <HintBlock
          key = hint.id
          hint = ''
-         updateVote 
+         updateVote
       />
    */
 
@@ -56,9 +56,9 @@ const Home = () => {
       event.preventDefault()
 
       const newHint = {
-  
+
       }
-      
+
       hintService.add(newHint)
    }
 
@@ -97,11 +97,11 @@ const Home = () => {
          <div>
             <Container fluid>
                <Row style = {{overflowY: 'scroll', height: '45%'}}>
-                  {                     
-                     hints.map(hint => 
+                  {
+                     hints.map(hint =>
                         <div style = {{width: '50%'}}>
-                           <HintBlock 
-                              key = {hint.id} 
+                           <HintBlock
+                              key = {hint.id}
                               hint = {hint}
                            />
                         </div>

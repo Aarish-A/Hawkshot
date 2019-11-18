@@ -4,11 +4,8 @@ from flask import render_template, request, Response
 import google.oauth2.id_token, google.auth.transport.requests
 from google.cloud import firestore
 
-<<<<<<< HEAD
 #TODO COMMENT EVERYTHING
 
-=======
->>>>>>> e4c69ce524df7caea0c7836463958bff3d5689d8
 HTTP_REQUEST = google.auth.transport.requests.Request()
 
 @app.route('/', defaults={'path': ''})
@@ -18,11 +15,7 @@ def index(path):
 
 @app.route('/api/hints', methods=['POST'])
 def post_hint():
-<<<<<<< HEAD
     #verify firebase auth
-=======
-    # verify firebase auth
->>>>>>> e4c69ce524df7caea0c7836463958bff3d5689d8
     id_token = request.headers['Authorization'].split(' ').pop()
     print(id_token)
     claims = google.oauth2.id_token.verify_firebase_token(id_token, HTTP_REQUEST)
@@ -44,11 +37,7 @@ def get_hint():
         'ownerId': request.args.get('ownerId', None),
         'limit': request.args.get('limit', 20),
         'hintId': request.args.get('hintId', None),
-<<<<<<< HEAD
         'sortBy': request.args.get('sortBy', None), #TODO add range filter too
-=======
-        'sortBy': request.args.get('sortBy', None),
->>>>>>> e4c69ce524df7caea0c7836463958bff3d5689d8
     }
     return templates.api.GetHint(data)
 
