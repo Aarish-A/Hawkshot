@@ -38,7 +38,7 @@ def GetHint(data): #TODO implement all filters
             dir = firestore.Query.ASCENDING
         else:
             dir = firestore.Query.DESCENDING
-        query = query.order_by(arg, direction=dir)
+        query = query.order_by(arg, direction=dir) #TODO add extra sort parameters
         print(arg, dir)
     if data['hintId']:
         query = query.document(data['hintId'])

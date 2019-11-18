@@ -43,5 +43,12 @@ def get_hint():
 
 @app.route('/api/hints/<hintId>', methods=['PUT'])
 def put_hint(hintId):
+    #verify firebase auth
+    id_token = request.headers['Authorization'].split(' ').pop()
+    print(id_token)
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, HTTP_REQUEST)
+    if not claims:
+        return Response('failed', 'Unauthorized', 401)
+
     type = request.args.get('type', None)
     return templates.api.UpdateHint(hintId, type=type)
