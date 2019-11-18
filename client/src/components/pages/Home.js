@@ -25,8 +25,8 @@ const Home = () => {
 
    useEffect(() => {
       // hintService
-         // .get({limit: 50})
-         // .then(initialHints => setHints(initialHints.hints))
+      //    .get({limit: 5})
+      //    .then(initialHints => setHints(initialHints.hints))
    }, [])
 
    const showHints = () => {
@@ -42,6 +42,23 @@ const Home = () => {
             // />
          // )
    }
+
+   const showHints = () => {
+      hints.map(hint =>
+         <HintBlock
+            key = {hint.id}
+            hint = {hint}
+         />
+      )
+   }
+
+   /*
+      <HintBlock
+         key = hint.id
+         hint = ''
+         updateVote
+      />
+   */
 
    /*
       <CardBlock
@@ -60,9 +77,9 @@ const Home = () => {
       event.preventDefault()
 
       const newHint = {
-  
+
       }
-      
+
       hintService.add(newHint)
    }
 
@@ -120,8 +137,8 @@ const Home = () => {
                   {                     
                      hints.map(hint => 
                         <div style = {{width: '50%'}}>
-                           <HintBlock 
-                              key = {hint.id} 
+                           <HintBlock
+                              key = {hint.id}
                               hint = {hint}
                            />
                         </div>
