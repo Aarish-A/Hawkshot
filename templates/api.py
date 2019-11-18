@@ -1,8 +1,14 @@
 import firebase_admin, time
 from firebase_admin import credentials, firestore
 from google.cloud.firestore_v1 import transforms
+<<<<<<< HEAD
 
 cred = credentials.Certificate("hawkshot-e7e56-firebase-adminsdk-1zawp-35a7f1dc88.json")
+=======
+
+cred = credentials.Certificate("templates/hawkshot-e7e56-firebase-adminsdk-1zawp-35a7f1dc88.json")
+
+>>>>>>> e4c69ce524df7caea0c7836463958bff3d5689d8
 firebase_admin.initialize_app(cred, {
     'projectId': "hawkshot-e7e56",
 })
@@ -12,7 +18,7 @@ db = firestore.client()
 
 # Data:
 def PostHint(data):
-    ref = db.collection(u'hints').document();
+    ref = db.collection(u'hints').document()
     ref.set({
         u'content': data['content'],
         u'cardId': data['cardId'],
