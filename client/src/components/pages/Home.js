@@ -1,6 +1,6 @@
 /* React Dependencies */
 import React, { useState, useEffect } from 'react';
-import {withFirebase} from '../firebase';
+import { withFirebase } from '../firebase';
 
 /* React-Bootstrap Dependencies */
 import {
