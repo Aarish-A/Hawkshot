@@ -32,17 +32,26 @@ def GetHint(data): #TODO implement all filters
         query = query.where(u'cardId', u'==', data['cardId'])
     if data['ownerId']:
         query = query.where(u'ownerId', u'==', data['ownerId'])
-    if data['sortBy']:
-        dir, arg  = data['sortBy'].split('_')
-        if dir == 'a':
-            dir = firestore.Query.ASCENDING
-        else:
-            dir = firestore.Query.DESCENDING
-        query = query.order_by(arg, direction=dir) #TODO add extra sort parameters
-        print(arg, dir)
+
+
+    if data['sortBy'] == 'popular':
+        if data['sortCat'] == 'all':
+            #TODO add all
+            arg = u'helpful'
+        elif data['sortCat'] == 'funny': arg = u'funny'
+        elif data['sortCat'] == 'helpful': arg = u'helpful'
+        else: arg = u'helpful'
+
+        query = query.order_by(arg, direction=firestore.Query.DESCENDING)
+    elif data['sortBy'] == 'recent':
+        query = query.order_by('timestamp', direction=firestore.Query.DESCENDING)
+    else:
+        query = query.order_by('helpful', direction=firestore.Query.DESCENDING)
+    #TODO Trending
+
     if data['hintId']:
         query = query.document(data['hintId'])
-
+    #TODO sorttype
     docs = query.stream()
 
     result = {'hints':[]}
