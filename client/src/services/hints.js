@@ -11,8 +11,8 @@ const baseUrl = 'http://localhost:5000/api/hints'
 // }
 
 const get = args => {
-   const request = axios.get(baseUrl, {params: {...args}})
-   return request.then(response => response.data)
+   const request = axios.get(baseUrl, {params: args})
+   return request.then(response => response.data.hints)
 }
 
 const add = async newHint => {

@@ -20,60 +20,52 @@ import HintBlock from '../HintBlock'
 /* Services */
 import hintService from '../../services/hints'
 
+<<<<<<< HEAD
 const HomeBase = props => {
    const [sort, setSort] = useState({category: 'all', order: 'popular', type: 'hint'})
+=======
+const Home = () => {
+   const [sort, setSort] = useState({
+      category: 'all',
+      order: 'popular',
+      type: 'hint',
+   })
+
+   const [hintParams, setHintParams] = useState({
+      cardId: '',
+      ownerId: '',
+      limit: 10,
+      hintId: '',
+      sortBy: ''
+   })
+
+>>>>>>> 3ed9c5e2fceb98fcee43e7e42a28426077b72fad
    const [hints, setHints] = useState([])
 
    console.log(props.firebase.auth.currentUser);
 
    useEffect(() => {
-      // hintService
-      //    .get({limit: 5})
-      //    .then(initialHints => setHints(initialHints.hints))
+      hintService
+         .get(hintParams)
+         .then(initialHints => setHints(initialHints))
    }, [])
 
-   //const showHints = () => {
-      // hints.
-         // .sort((a, b) => {
-
-         // }
-         // )
-         // .map(hint =>
-            // <HintBlock
-               // key = {hint.id}
-               // hint = {hint}
-            // />
-         // )
-   //}
-
-   const showHints = () => {
-      hints.map(hint =>
-         <HintBlock
-            key = {hint.id}
-            hint = {hint}
-         />
-      )
-   }
-
-   /*
-      <HintBlock
-         key = hint.id
-         hint = ''
-         updateVote
-      />
-   */
-
-   /*
-      <CardBlock
-
-      />
-   */
-
    const changeSort = newSort => () => {
+      const newHintParams = {
+         ...hintParams,
+         sortBy: newSort.category === 'all' ? '' : 'd_' + newSort.category
+      }
+      
       setSort({
          ...sort,
-         newSort
+         ...newSort
       })
+      setHintParams(newHintParams)
+
+      hintService
+         .get(newHintParams)
+         .then(hints => setHints(hints))
+         .then(console.log('Set new hints!'))
    }
 
    const uploadHint = event => {
@@ -139,7 +131,7 @@ const HomeBase = props => {
                <Row>
                   {
                      hints.map(hint =>
-                        <div style = {{width: '50%'}}>
+                        <div key = {hint.id} style = {{width: '50%'}}>
                            <HintBlock
                               key = {hint.id}
                               hint = {hint}

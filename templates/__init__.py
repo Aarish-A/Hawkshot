@@ -6,6 +6,4 @@ static_folder='../client/build/static',
 template_folder='../client/build')
 CORS(app)
 
-CORS(app)
-
 import templates.views
