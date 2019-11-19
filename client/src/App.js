@@ -1,4 +1,5 @@
 import React from 'react';
+import {withFirebase} from './components/firebase';
 import {
   BrowserRouter as Router,
   Route,
@@ -11,11 +12,15 @@ import {
   Image,
   Navbar,
 } from 'react-bootstrap'
-import Home from './components/pages/Home'
+import Home from './components/pages/Home';
+import SignInPage from './components/pages/SignIn';
+import SignUpPage from './components/pages/SignUp';
+import LoggedIn from './components/LoggedIn';
+import LoggedOff from './components/LoggedOff';
 
 import cards from './assets/data_dragon/en_us/data/set1-en_us'
 
-const App = () => {
+const App = props => {
   const getCards = (cardType) => {
     const championCards = cards.filter(card => card.type === cardType);
     const divs = championCards.map(card => {
@@ -33,7 +38,6 @@ const App = () => {
 
     return divs;
   }
-
   return (
     <div className="App">
       <Router>
@@ -42,14 +46,13 @@ const App = () => {
             <Navbar bg = 'light'>
               <Navbar.Brand as = {Link} to = '/' style = {{fontSize: '50px'}}>Hawkshot</Navbar.Brand>
               <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text>
-                  Signed in as: User
-                </Navbar.Text>
+                {props.firebase.currentUser?<LoggedIn/>:<LoggedOff/>}
               </Navbar.Collapse>
             </Navbar>
           </div>
           <div>
             <Route exact path = '/' render = {() => <Home/>} />
+            <Route exact path = '/login' render = {() => <SignInPage/>} />
           </div>
         </div>
       </Router>
@@ -57,4 +60,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default withFirebase(App);

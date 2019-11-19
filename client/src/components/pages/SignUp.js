@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom'
 //higher order component, don't ask me what this does
 import  {withFirebase} from '../firebase';
 
-const INTIAL_STATE = {
+const INITIAL_STATE = {
   username: '',
   email: '',
   passwordOne: '',
@@ -22,7 +22,7 @@ const SignUpPage = () => (
 class SignUpFormBase extends Component {
   constructor(props) {
     super(props);
-    this.state = {...INTIIAL_STATE};
+    this.state = {...INITIAL_STATE};
   }
 
   onSubmit = event => {
@@ -32,7 +32,7 @@ class SignUpFormBase extends Component {
     .doCreateUserWithEmailAndPassword(email, passwordOne)
     .then(authUser => {
       this.setState({ ...INITIAL_STATE});
-      this.props.history.push(ROUTES.HOME);
+      //this.props.history.push(ROUTES.HOME);
     })
     .catch(error => {
       this.setState({error});
@@ -102,4 +102,4 @@ const SignUpForm = withRouter(withFirebase(SignUpFormBase));
 
 export default SignUpPage;
 
-export { SignUpForm, SignUpLink};
+export {SignUpForm}

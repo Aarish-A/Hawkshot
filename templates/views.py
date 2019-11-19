@@ -37,7 +37,7 @@ def get_hint():
         'ownerId': request.args.get('ownerId', None),
         'limit': request.args.get('limit', 20),
         'hintId': request.args.get('hintId', None),
-        'sortBy': request.args.get('sortBy', None), #TODO add range filter too
+        'sortBy': request.args.get('sortBy', None), #TODO change to json formatting
     }
     return templates.api.GetHint(data)
 

@@ -1,5 +1,6 @@
 /* React Dependencies */
 import React, { useState, useEffect } from 'react';
+import {withFirebase} from '../firebase';
 
 /* React-Bootstrap Dependencies */
 import {
@@ -19,9 +20,11 @@ import HintBlock from '../HintBlock'
 /* Services */
 import hintService from '../../services/hints'
 
-const Home = () => {
+const HomeBase = props => {
    const [sort, setSort] = useState({category: 'all', order: 'popular', type: 'hint'})
    const [hints, setHints] = useState([])
+
+   console.log(props.firebase.auth.currentUser);
 
    useEffect(() => {
       // hintService
@@ -29,19 +32,19 @@ const Home = () => {
       //    .then(initialHints => setHints(initialHints.hints))
    }, [])
 
-   const showHints = () => {
+   //const showHints = () => {
       // hints.
          // .sort((a, b) => {
 
          // }
          // )
-         // .map(hint => 
-            // <HintBlock 
-               // key = {hint.id} 
+         // .map(hint =>
+            // <HintBlock
+               // key = {hint.id}
                // hint = {hint}
             // />
          // )
-   }
+   //}
 
    const showHints = () => {
       hints.map(hint =>
@@ -66,7 +69,7 @@ const Home = () => {
       />
    */
 
-   const changeSort = newSort => () => {   
+   const changeSort = newSort => () => {
       setSort({
          ...sort,
          newSort
@@ -134,8 +137,8 @@ const Home = () => {
          <div>
             <Container fluid>
                <Row>
-                  {                     
-                     hints.map(hint => 
+                  {
+                     hints.map(hint =>
                         <div style = {{width: '50%'}}>
                            <HintBlock
                               key = {hint.id}
@@ -151,4 +154,5 @@ const Home = () => {
     )
 }
 
-export default Home
+const Home = withFirebase(HomeBase);
+export default Home;
