@@ -36,6 +36,8 @@ def GetHint(data): #TODO implement all filters
 
     if data['cardId']:
         query = query.where(u'cardId', u'==', data['cardId'])
+    elif data['cardName']:
+        query = query.where(u'cardName', u'==', data['cardName'])
     if data['ownerId']:
         query = query.where(u'ownerId', u'==', data['ownerId'])
 

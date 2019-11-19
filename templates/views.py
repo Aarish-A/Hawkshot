@@ -32,6 +32,7 @@ def post_hint():
 def get_hint():
     data = {
         'cardId': request.args.get('cardId', None),
+        'cardName': request.args.get('cardName', None),
         'ownerId': request.args.get('ownerId', None),
         'limit': request.args.get('limit', 20),
         'hintId': request.args.get('hintId', None),
