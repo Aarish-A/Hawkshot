@@ -10,6 +10,8 @@ const updateToken = async firebase => {
     token = await currentUser.getIdToken();
     console.log(token);
     return token;
+  }else{
+    console.error("Current user not authenticated");
   }
 }
 

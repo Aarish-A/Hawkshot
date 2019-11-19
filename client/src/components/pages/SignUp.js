@@ -31,6 +31,7 @@ const SignUpFormBase = props => {
         authUser.user.updateProfile({
           displayName: state.username
         })
+        hintService.updateToken(props.firebase);
         setState({ ...INITIAL_STATE});
         props.history.push('/');
       })
