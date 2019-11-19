@@ -18,11 +18,16 @@ import SignUpPage from './components/pages/SignUp';
 import LoggedIn from './components/LoggedIn';
 import LoggedOff from './components/LoggedOff';
 
+import hintService from './services/hints'
+
 const App = withFirebase(props => {
   const [authUser, setAuthUser] = useState(null)
 
   useEffect(() => {
-    props.firebase.auth.onAuthStateChanged(user => user ? setAuthUser(user) : setAuthUser(null))
+    props.firebase.auth.onAuthStateChanged(user => {
+      user ? setAuthUser(user) : setAuthUser(null)
+      hintService.updateToken(props.firebase)
+    })    
   }, [])
 
   return (

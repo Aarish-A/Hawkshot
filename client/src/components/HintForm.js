@@ -41,7 +41,7 @@ const HintForm = props => {
                content: hint,
                cardId: selectedCard
             })
-            .then(console.log('Successfuly pushed card'))
+            .then(setShow(false))
             .catch(err => console.error(err))
       }
    }
