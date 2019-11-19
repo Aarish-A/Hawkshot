@@ -1,0 +1,123 @@
+ /* Dropdown Button */
+.displaybody {
+		
+	     margin: 0 auto;
+	     display: block;
+		 border-style: solid;
+  border-width: 5px;
+  height: 500px;
+  width: 300px;
+
+	  }
+	  
+	h1,
+	p
+	{
+		text-align: center;
+		
+  font-family: "Beaufort";
+  font-weight: 300;
+  text-transform: uppercase;
+
+	}	
+
+	
+	div.ex1 {
+  width: 275px;
+  height: 450px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+ 
+  
+}
+
+	div.menuholder {
+  width: 275px;
+  height: 150px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+ 
+  
+}
+
+
+
+
+
+
+.bottomrighttitle {
+  position: absolute;
+  bottom: 400px;
+  right: 200px;
+
+}
+.bottomrighthint {
+  position: absolute;
+  bottom: 300px;
+  right: 150px;
+
+}
+
+.bottomrightname {
+  position: absolute;
+  bottom: 200px;
+  right: 150px;
+
+}
+
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  bottom: 0px;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+button
+{
+	width:100px;
+	
+	
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;} 
+
+
+
+
+
+
