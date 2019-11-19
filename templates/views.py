@@ -36,7 +36,9 @@ def get_hint():
         'ownerId': request.args.get('ownerId', None),
         'limit': request.args.get('limit', 20),
         'hintId': request.args.get('hintId', None),
-        'sortBy': request.args.get('sortBy', None), #TODO change to json formatting
+        'sortBy': request.args.get('sortBy', 'popular'),
+        'sortCat': request.args.get('sortCat', 'all'),
+        'sortType': request.args.get('sortType', 'hint'),
     }
     return templates.api.GetHint(data)
 

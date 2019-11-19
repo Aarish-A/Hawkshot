@@ -21,6 +21,7 @@ import LoggedOff from './components/LoggedOff';
 import cards from './assets/data_dragon/en_us/data/set1-en_us'
 
 const App = props => {
+  console.log(props.firebase.auth.currentUser);
   const getCards = (cardType) => {
     const championCards = cards.filter(card => card.type === cardType);
     const divs = championCards.map(card => {
@@ -46,7 +47,7 @@ const App = props => {
             <Navbar bg = 'light'>
               <Navbar.Brand as = {Link} to = '/' style = {{fontSize: '50px'}}>Hawkshot</Navbar.Brand>
               <Navbar.Collapse className="justify-content-end">
-                {props.firebase.currentUser?<LoggedIn/>:<LoggedOff/>}
+                {props.firebase.auth.currentUser?<LoggedIn/>:<LoggedOff/>}
               </Navbar.Collapse>
             </Navbar>
           </div>
