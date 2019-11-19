@@ -2,9 +2,9 @@ import React from 'react';
 import {withFirebase} from './components/firebase';
 import {
   BrowserRouter as Router,
-  Route, 
-  Link, 
-  Redirect, 
+  Route,
+  Link,
+  Redirect,
   withRouter
 } from 'react-router-dom'
 
@@ -26,7 +26,7 @@ const App = props => {
     const divs = championCards.map(card => {
       return <div key = {card.cardCode} style = {{display: 'inline-grid'}}>
         <Image
-          src = {require(`./assets/data_dragon/en_us/img/cards/${card.cardCode}.png`)} 
+          src = {require(`./assets/data_dragon/en_us/img/cards/${card.cardCode}.png`)}
           alt = "Cannot load"
           fluid
         />
@@ -41,7 +41,7 @@ const App = props => {
   return (
     <div className="App">
       <Router>
-        <div> 
+        <div>
           <div>
             <Navbar bg = 'light'>
               <Navbar.Brand as = {Link} to = '/' style = {{fontSize: '50px'}}>Hawkshot</Navbar.Brand>
