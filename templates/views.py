@@ -31,7 +31,6 @@ def post_hint():
 
 @app.route('/api/hints', methods=['GET'])
 def get_hint():
-    result = request.args
     data = {
         'cardId': request.args.get('cardId', None),
         'ownerId': request.args.get('ownerId', None),

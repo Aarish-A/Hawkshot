@@ -20,57 +20,44 @@ import HintBlock from '../HintBlock'
 import hintService from '../../services/hints'
 
 const Home = () => {
-   const [sort, setSort] = useState({category: 'all', order: 'popular', type: 'hint'})
+   const [sort, setSort] = useState({
+      category: 'all', 
+      order: 'popular', 
+      type: 'hint',
+   })
+
+   const [hintParams, setHintParams] = useState({
+      cardId: '',
+      ownerId: '',
+      limit: 10,
+      hintId: '',
+      sortBy: ''
+   })
+
    const [hints, setHints] = useState([])
 
    useEffect(() => {
-      // hintService
-      //    .get({limit: 5})
-      //    .then(initialHints => setHints(initialHints.hints))
+      hintService
+         .get(hintParams)
+         .then(initialHints => setHints(initialHints))
    }, [])
+   
+   const changeSort = newSort => () => {
+      const newHintParams = {
+         ...hintParams,
+         sortBy: newSort.category === 'all' ? '' : 'd_' + newSort.category
+      }
 
-   const showHints = () => {
-      // hints.
-         // .sort((a, b) => {
-
-         // }
-         // )
-         // .map(hint => 
-            // <HintBlock 
-               // key = {hint.id} 
-               // hint = {hint}
-            // />
-         // )
-   }
-
-   const showHints = () => {
-      hints.map(hint =>
-         <HintBlock
-            key = {hint.id}
-            hint = {hint}
-         />
-      )
-   }
-
-   /*
-      <HintBlock
-         key = hint.id
-         hint = ''
-         updateVote
-      />
-   */
-
-   /*
-      <CardBlock
-
-      />
-   */
-
-   const changeSort = newSort => () => {   
       setSort({
          ...sort,
-         newSort
+         ...newSort
       })
+      setHintParams(newHintParams)
+
+      hintService
+         .get(newHintParams)
+         .then(hints => setHints(hints))
+         .then(console.log('Set new hints!'))
    }
 
    const uploadHint = event => {
@@ -136,7 +123,7 @@ const Home = () => {
                <Row>
                   {                     
                      hints.map(hint => 
-                        <div style = {{width: '50%'}}>
+                        <div key = {hint.id} style = {{width: '50%'}}>
                            <HintBlock
                               key = {hint.id}
                               hint = {hint}
