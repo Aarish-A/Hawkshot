@@ -20,10 +20,6 @@ import HintBlock from '../HintBlock'
 /* Services */
 import hintService from '../../services/hints'
 
-<<<<<<< HEAD
-const HomeBase = props => {
-   const [sort, setSort] = useState({category: 'all', order: 'popular', type: 'hint'})
-=======
 const Home = () => {
    const [sort, setSort] = useState({
       category: 'all',
@@ -39,7 +35,6 @@ const Home = () => {
       sortBy: ''
    })
 
->>>>>>> 3ed9c5e2fceb98fcee43e7e42a28426077b72fad
    const [hints, setHints] = useState([])
 
    console.log(props.firebase.auth.currentUser);
@@ -55,7 +50,7 @@ const Home = () => {
          ...hintParams,
          sortBy: newSort.category === 'all' ? '' : 'd_' + newSort.category
       }
-      
+
       setSort({
          ...sort,
          ...newSort
