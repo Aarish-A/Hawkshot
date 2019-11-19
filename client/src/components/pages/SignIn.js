@@ -5,7 +5,7 @@ import {withFirebase} from '../firebase';
 
 const SignInPage = () => (
   <div>
-    <h1>sign in bruh</h1>
+    <h1>Sign In</h1>
     <SignInForm />
   </div>
 )
@@ -17,7 +17,8 @@ const INITIAL_STATE = {
 }
 
 const SignInFormBase = props => {
-  console.log(props.firebase.auth.currentUser);
+  for (let i = 0; i < 50; i++) console.log(props)
+  // console.log(props.firebase.auth.currentUser);
   const [state, setState] = useState(INITIAL_STATE);
 
   console.log(state);
@@ -73,5 +74,3 @@ const SignInFormBase = props => {
 const SignInForm = withRouter(withFirebase(SignInFormBase));
 
 export default SignInPage;
-
-export {SignInForm};

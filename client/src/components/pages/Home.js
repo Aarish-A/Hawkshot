@@ -30,7 +30,7 @@ const HomeBase = props => {
    const [hintParams, setHintParams] = useState({
       cardId: '',
       ownerId: '',
-      limit: 10,
+      limit: 2,
       hintId: '',
       sortBy: ''
    })
