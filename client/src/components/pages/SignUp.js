@@ -3,6 +3,7 @@ import {Link, withRouter} from 'react-router-dom'
 
 //higher order component, don't ask me what this does
 import  {withFirebase} from '../firebase';
+import hintService from '../../services/hints'
 
 const INITIAL_STATE = {
   username: '',

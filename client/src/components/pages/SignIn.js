@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {withRouter} from 'react-router-dom';
 import {withFirebase} from '../firebase';
+import hintService from '../../services/hints'
 
 const SignInPage = () => (
   <div>
@@ -30,7 +31,6 @@ const SignInForm = withRouter(withFirebase(props => {
       .catch(error => {
         setState({...state, error: error});
       });
-
   };
 
   const onChange = event => {
