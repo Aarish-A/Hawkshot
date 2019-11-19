@@ -2,9 +2,9 @@ import React from 'react';
 import {withFirebase} from './components/firebase';
 import {
   BrowserRouter as Router,
-  Route, 
-  Link, 
-  Redirect, 
+  Route,
+  Link,
+  Redirect,
   withRouter
 } from 'react-router-dom'
 
@@ -26,7 +26,7 @@ const App = props => {
     const divs = championCards.map(card => {
       return <div key = {card.cardCode} style = {{display: 'inline-grid'}}>
         <Image
-          src = {require(`./assets/data_dragon/en_us/img/cards/${card.cardCode}.png`)} 
+          src = {require(`./assets/data_dragon/en_us/img/cards/${card.cardCode}.png`)}
           alt = "Cannot load"
           fluid
         />
@@ -41,18 +41,12 @@ const App = props => {
   return (
     <div className="App">
       <Router>
-        <div> 
+        <div>
           <div>
             <Navbar bg = 'light'>
               <Navbar.Brand as = {Link} to = '/' style = {{fontSize: '50px'}}>Hawkshot</Navbar.Brand>
               <Navbar.Collapse className="justify-content-end">
-<<<<<<< HEAD
                 {props.firebase.currentUser?<LoggedIn/>:<LoggedOff/>}
-=======
-                <Navbar.Text> 
-                  Signed in as: User 
-                </Navbar.Text>
->>>>>>> 3ed9c5e2fceb98fcee43e7e42a28426077b72fad
               </Navbar.Collapse>
             </Navbar>
           </div>
@@ -66,8 +60,4 @@ const App = props => {
   );
 }
 
-<<<<<<< HEAD
 export default withFirebase(App);
-=======
-export default App;
->>>>>>> 3ed9c5e2fceb98fcee43e7e42a28426077b72fad
