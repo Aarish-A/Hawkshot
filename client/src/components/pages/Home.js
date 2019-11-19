@@ -15,6 +15,7 @@ import {
 
 /* Components */
 import HintBlock from '../HintBlock'
+import HintForm from '../HintForm'
 
 /* Services */
 import hintService from '../../services/hints'
@@ -76,7 +77,8 @@ const Home = withFirebase(props => {
             <Form inline>
                <FormControl type = 'text' placeholder = 'Search' className = 'mr-sm-2' style = {{width: '80%', marginLeft: '10px'}}/>
                <h5 style = {{width: '5%'}}>OR</h5>
-               <Button style = {{width: '10%'}}>Submit a Hint</Button>
+               <HintForm style = {{width: '10%'}}/>
+               {/* <Button style = {{width: '10%'}}>Submit a Hint</Button> */}
             </Form>
          </div>
          <div>

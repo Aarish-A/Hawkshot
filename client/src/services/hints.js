@@ -19,8 +19,7 @@ const get = args => {
 }
 
 const add = async newHint => {
-  const response = axios.post(baseUrl, newHint,
-    {
+  const response = axios.post(baseUrl, newHint, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: "Bearer " + token
@@ -30,7 +29,6 @@ const add = async newHint => {
     }).catch(error => {
       console.error(error);
     });
-
 }
 
 const update = (hintId, vote) => {
