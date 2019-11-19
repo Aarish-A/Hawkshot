@@ -4,16 +4,21 @@ const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
 const request = require('request');	
-const ipc = require('electron').ipcRenderer;
+const { ipcMain } = require('electron');
+const { ipcRenderer } = require('electron');
 
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 let overlayWindow
-
+//let updatetime
+//let count
 
 function createWindow () {
+
+//count = 0;
+//updatetime = new Date();
 
 let display = screen.getPrimaryDisplay();
 let width = display.bounds.width;
@@ -111,8 +116,10 @@ function nexthint()
 
 function readhover(event)
 {
-
 	
+	//if(new Date() - updatetime > 200)
+
+//{
 	var positionobject;
 	var xpos = event.screenX;
 	var ypos = event.screenY;
@@ -126,7 +133,12 @@ axios.get('http://localhost:21337/positional-rectangles').then((response) =>
 	
 	
 	});
+	//count +=1;
+	//updatetime = new Date();
+	//console.log(count);
 	
+//}
+
 }
 
 function getcardcode(positions, x, y)
@@ -164,7 +176,7 @@ function throttle(callback, limit, time) {
 
     /// creating a closure that will be called
     return function(){
-        /// checking the limit (if limit is exceeded then do not call the passed function
+        /// 	
         if (limit > calledCount) {
             /// increase the count
             calledCount++;
@@ -174,6 +186,13 @@ function throttle(callback, limit, time) {
     };
 }
 
+
+ipcMain.on('request-update-label-in-second-window', (event, arg) => {
+    // Request to update the label in the renderer process of the second window
+    // We'll send the same data that was sent to the main process
+    // Note: you can obviously send the 
+    overlayWindow.webContents.send('action-update-label', arg);
+});
 
 
 
