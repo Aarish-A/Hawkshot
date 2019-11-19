@@ -18,13 +18,14 @@ const INITIAL_STATE = {
 
 const SignInForm = withRouter(withFirebase(props => {
   const [state, setState] = useState(INITIAL_STATE);
-  
+
   const onSubmit = event => {
     event.preventDefault();
     console.log("BRUH",state);
     props.firebase
       .signInWithEmailAndPassword(state.email, state.password)
       .then(() => {
+        hintService.updateToken(props.firebase);
         setState({ ...INITIAL_STATE});
         props.history.push('/');
       })

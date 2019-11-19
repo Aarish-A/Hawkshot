@@ -1,6 +1,7 @@
 import firebase_admin, time
 from firebase_admin import credentials, firestore
 from google.cloud.firestore_v1 import transforms
+from flask import Response
 
 cred = credentials.Certificate("hawkshot-e7e56-firebase-adminsdk-1zawp-35a7f1dc88.json")
 firebase_admin.initialize_app(cred, {
@@ -22,6 +23,7 @@ def PostHint(data):
         u'id': ref.id,
         u'timestamp': int(time.time()),
     })
+    return Response('Hint successfully posted', 200);
 
 def GetHint(data): #TODO implement all filters
     ref = db.collection(u'hints')
@@ -72,4 +74,4 @@ def UpdateHint(hintId, type):
         hint_ref.update({u'funny':transforms.Increment(-1)})
     else:
         return Response('failed', 'Invalid type', 401)
-    return "bruh"
+    return Response('Hint successfully updated', 200);

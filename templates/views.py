@@ -17,17 +17,15 @@ def index(path):
 def post_hint():
     #verify firebase auth
     id_token = request.headers['Authorization'].split(' ').pop()
-    print(id_token)
     claims = google.oauth2.id_token.verify_firebase_token(id_token, HTTP_REQUEST)
     if not claims:
         return Response('failed', 'Unauthorized', 401)
     if not request.content_type == 'application/json':
         return Response('failed', 'content_type must be application/json', 401)
-
     result = request.get_json()
-    print(result['content'])
-    templates.api.PostHint(result)
-    return 'bruh' #TODO Fill in proper response
+    result['ownerId'] = claims['user_id']
+
+    return templates.api.PostHint(result) #TODO Fill in proper response
 
 @app.route('/api/hints', methods=['GET'])
 def get_hint():
