@@ -3,6 +3,7 @@ import {Link, withRouter} from 'react-router-dom'
 
 //higher order component, don't ask me what this does
 import  {withFirebase} from '../firebase';
+import hintService from '../../services/hints'
 
 const INITIAL_STATE = {
   username: '',
@@ -28,6 +29,7 @@ const SignUpFormBase = props => {
     .doCreateUserWithEmailAndPassword(state.email, state.passwordOne)
     .then(authUser => {
       setState({ ...INITIAL_STATE});
+      hintService.updateToken(props.firebase);
       props.history.push('/');
     })
     .catch(error => {
