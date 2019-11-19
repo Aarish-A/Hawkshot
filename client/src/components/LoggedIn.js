@@ -13,7 +13,7 @@ const LoggedIn = props => {
   return(
   <>
     <Navbar.Text>
-      Signed in as: {props.firebase.auth.currentUser.uid}
+      Signed in as: {props.firebase.auth.currentUser.displayName}
     </Navbar.Text>
     <Button onClick={props.firebase.doSignOut}>Sign Out</Button>
   </>)

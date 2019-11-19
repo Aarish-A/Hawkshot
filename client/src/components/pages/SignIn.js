@@ -17,8 +17,6 @@ const INITIAL_STATE = {
 }
 
 const SignInFormBase = props => {
-  for (let i = 0; i < 50; i++) console.log(props)
-  // console.log(props.firebase.auth.currentUser);
   const [state, setState] = useState(INITIAL_STATE);
 
   console.log(state);
