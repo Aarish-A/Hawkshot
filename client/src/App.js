@@ -46,13 +46,7 @@ const App = props => {
             <Navbar bg = 'light'>
               <Navbar.Brand as = {Link} to = '/' style = {{fontSize: '50px'}}>Hawkshot</Navbar.Brand>
               <Navbar.Collapse className="justify-content-end">
-<<<<<<< HEAD
                 {props.firebase.currentUser?<LoggedIn/>:<LoggedOff/>}
-=======
-                <Navbar.Text> 
-                  Signed in as: User 
-                </Navbar.Text>
->>>>>>> 3ed9c5e2fceb98fcee43e7e42a28426077b72fad
               </Navbar.Collapse>
             </Navbar>
           </div>
@@ -66,8 +60,4 @@ const App = props => {
   );
 }
 
-<<<<<<< HEAD
 export default withFirebase(App);
-=======
-export default App;
->>>>>>> 3ed9c5e2fceb98fcee43e7e42a28426077b72fad
