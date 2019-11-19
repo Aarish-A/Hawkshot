@@ -23,6 +23,8 @@ def PostHint(data):
         u'ownerName': data['ownerName'],
         u'funny': 0,
         u'helpful': 0,
+        u'votes': 0,
+        u'trending': 0,
         u'id': ref.id,
         u'timestamp': int(time.time()),
     })
@@ -43,9 +45,7 @@ def GetHint(data): #TODO implement all filters
 
 
     if data['sortBy'] == 'popular':
-        if data['sortCat'] == 'all':
-            #TODO add all
-            arg = u'helpful'
+        if data['sortCat'] == 'all': arg = u'votes'
         elif data['sortCat'] == 'funny': arg = u'funny'
         elif data['sortCat'] == 'helpful': arg = u'helpful'
         else: arg = u'helpful'
@@ -53,9 +53,10 @@ def GetHint(data): #TODO implement all filters
         query = query.order_by(arg, direction=firestore.Query.DESCENDING)
     elif data['sortBy'] == 'recent':
         query = query.order_by('timestamp', direction=firestore.Query.DESCENDING)
+    elif data['sortBy'] == 'trending':
+        query = query.order_by('trending', direction=firestore.Query.DESCENDING)
     else:
         query = query.order_by('helpful', direction=firestore.Query.DESCENDING)
-    #TODO Trending
 
     if data['hintId']:
         query = query.document(data['hintId'])
