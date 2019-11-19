@@ -20,7 +20,7 @@ import HintBlock from '../HintBlock'
 /* Services */
 import hintService from '../../services/hints'
 
-const Home = () => {
+const HomeBase = props => {
    const [sort, setSort] = useState({
       category: 'all',
       order: 'popular',
