@@ -191,7 +191,7 @@ ipcMain.on('request-update-label-in-second-window', (event, arg) => {
     // Request to update the label in the renderer process of the second window
     // We'll send the same data that was sent to the main process
     // Note: you can obviously send the 
-    overlayWindow.webContents.send('action-update-label', arg);
+    mainWindow.webContents.send('action-update-label', arg);
 });
 
 
