@@ -53,6 +53,7 @@ const App = props => {
           <div>
             <Route exact path = '/' render = {() => <Home/>} />
             <Route exact path = '/login' render = {() => <SignInPage/>} />
+            <Route exact path = '/signup' render = {() => <SignUpPage/>} />
           </div>
         </div>
       </Router>

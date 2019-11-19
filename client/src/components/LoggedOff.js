@@ -13,6 +13,7 @@ const LoggedOff = props => {
   return(
   <>
     <Button as = {Link} to = '/login'>Sign in</Button>
+    <Button as = {Link} to = '/signup'>Sign up</Button>
   </>)
 };
 

@@ -33,7 +33,7 @@ const SignInFormBase = props => {
       console.log(props.firebase.auth.currentUser);
     })
     .catch(error => {
-      setState({error});
+      setState({...state, error: error});
     });
 
   };
