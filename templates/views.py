@@ -24,6 +24,7 @@ def post_hint():
         return Response('failed', 'content_type must be application/json', 401)
     result = request.get_json()
     result['ownerId'] = claims['user_id']
+    result['ownerName'] = claims['name']
 
     return templates.api.PostHint(result) #TODO Fill in proper response
 

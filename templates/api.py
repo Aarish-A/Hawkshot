@@ -2,6 +2,7 @@ import firebase_admin, time
 from firebase_admin import credentials, firestore
 from google.cloud.firestore_v1 import transforms
 from flask import Response
+from templates.card_set import card_set
 
 cred = credentials.Certificate("hawkshot-e7e56-firebase-adminsdk-1zawp-35a7f1dc88.json")
 firebase_admin.initialize_app(cred, {
@@ -17,12 +18,15 @@ def PostHint(data):
     ref.set({
         u'content': data['content'],
         u'cardId': data['cardId'],
+        u'cardName': next((x for x in card_set if x['cardCode'] == data['cardId']), "card doesn't exist?")['name'],
         u'ownerId': data['ownerId'],
+        u'ownerName': data['ownerName'],
         u'funny': 0,
         u'helpful': 0,
         u'id': ref.id,
         u'timestamp': int(time.time()),
     })
+
     return Response('Hint successfully posted', 200);
 
 def GetHint(data): #TODO implement all filters
