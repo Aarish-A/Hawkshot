@@ -9,14 +9,14 @@ import {
 } from 'react-router-dom'
 import {withFirebase} from './firebase';
 
-const LoggedIn = props => {
+const LoggedIn = withFirebase(props => {
   return(
   <>
     <Navbar.Text>
       Signed in as: {props.firebase.auth.currentUser.displayName}
     </Navbar.Text>
-    <Button onClick={props.firebase.doSignOut}>Sign Out</Button>
+    <Button onClick={props.firebase.signOut}>Sign Out</Button>
   </>)
-};
+})
 
-export default withFirebase(LoggedIn);
+export default LoggedIn;

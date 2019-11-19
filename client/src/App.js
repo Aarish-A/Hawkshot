@@ -18,7 +18,7 @@ import SignUpPage from './components/pages/SignUp';
 import LoggedIn from './components/LoggedIn';
 import LoggedOff from './components/LoggedOff';
 
-const App = props => {
+const App = withFirebase(props => {
   const [authUser, setAuthUser] = useState(null)
 
   useEffect(() => {
@@ -46,6 +46,6 @@ const App = props => {
       </Router>
     </div>
   );
-}
+})
 
-export default withFirebase(App);
+export default App;

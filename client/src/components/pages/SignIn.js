@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {withRouter} from 'react-router-dom';
-//import {compose} from 'recompose';
 import {withFirebase} from '../firebase';
 
 const SignInPage = () => (
@@ -16,24 +15,21 @@ const INITIAL_STATE = {
   error: null
 }
 
-const SignInFormBase = props => {
+const SignInForm = withRouter(withFirebase(props => {
   const [state, setState] = useState(INITIAL_STATE);
-
-  console.log(state);
-
+  
   const onSubmit = event => {
     event.preventDefault();
     console.log("BRUH",state);
     props.firebase
-    .doSignInWithEmailAndPassword(state.email, state.password)
-    .then(() => {
-      setState({ ...INITIAL_STATE});
-      props.history.push('/');
-      console.log(props.firebase.auth.currentUser);
-    })
-    .catch(error => {
-      setState({...state, error: error});
-    });
+      .signInWithEmailAndPassword(state.email, state.password)
+      .then(() => {
+        setState({ ...INITIAL_STATE});
+        props.history.push('/');
+      })
+      .catch(error => {
+        setState({...state, error: error});
+      });
 
   };
 
@@ -66,9 +62,6 @@ const SignInFormBase = props => {
       {state.error && <p>{state.error.message}</p>}
     </form>
   )
-}
-
-
-const SignInForm = withRouter(withFirebase(SignInFormBase));
+}))
 
 export default SignInPage;

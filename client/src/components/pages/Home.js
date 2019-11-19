@@ -5,7 +5,6 @@ import { withFirebase } from '../firebase';
 /* React-Bootstrap Dependencies */
 import {
     Container,
-    Col,
     Row,
     Form,
     FormControl,
@@ -20,7 +19,7 @@ import HintBlock from '../HintBlock'
 /* Services */
 import hintService from '../../services/hints'
 
-const HomeBase = props => {
+const Home = withFirebase(props => {
    const [sort, setSort] = useState({
       category: 'all',
       order: 'popular',
@@ -36,8 +35,6 @@ const HomeBase = props => {
    })
 
    const [hints, setHints] = useState([])
-
-   console.log(props.firebase.auth.currentUser);
 
    useEffect(() => {
       hintService
@@ -139,7 +136,6 @@ const HomeBase = props => {
          </div>
       </>
     )
-}
+})
 
-const Home = withFirebase(HomeBase);
 export default Home;

@@ -25,17 +25,17 @@ const SignUpFormBase = props => {
   const onSubmit = event => {
 
     props.firebase
-    .doCreateUserWithEmailAndPassword(state.email, state.passwordOne)
-    .then(authUser => {
-      authUser.user.updateProfile({
-        displayName: state.username
+      .createUserWithEmailAndPassword(state.email, state.passwordOne)
+      .then(authUser => {
+        authUser.user.updateProfile({
+          displayName: state.username
+        })
+        setState({ ...INITIAL_STATE});
+        props.history.push('/');
       })
-      setState({ ...INITIAL_STATE});
-      props.history.push('/');
-    })
-    .catch(error => {
-      setState({...state, error: error});
-    });
+      .catch(error => {
+        setState({...state, error: error});
+      });
 
     event.preventDefault();
   };
