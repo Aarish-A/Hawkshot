@@ -18,7 +18,10 @@ const INITIAL_STATE = {
 }
 
 const SignInFormBase = props => {
+<<<<<<< HEAD
   // console.log(props.firebase.auth.currentUser);
+=======
+>>>>>>> a139beda8d049f97ca8e67952b8e0705b346eac7
   const [state, setState] = useState(INITIAL_STATE);
 
   console.log(state);

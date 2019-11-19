@@ -28,6 +28,9 @@ const SignUpFormBase = props => {
     props.firebase
     .doCreateUserWithEmailAndPassword(state.email, state.passwordOne)
     .then(authUser => {
+      authUser.user.updateProfile({
+        displayName: state.username
+      })
       setState({ ...INITIAL_STATE});
       hintService.updateToken(props.firebase);
       props.history.push('/');
@@ -56,7 +59,7 @@ const SignUpFormBase = props => {
         value={state.username}
         onChange={onChange}
         type="text"
-        placeholder="Full Name"
+        placeholder="Username"
       />
       <input
         name="email"
