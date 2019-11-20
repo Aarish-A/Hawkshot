@@ -69,16 +69,35 @@ def GetHint(data): #TODO implement all filters
 
     return result
 
-def UpdateHint(hintId, type):
+def UpdateHint(hintId, userId, type):
     hint_ref = db.collection(u'hints').document(hintId)
-    if type == 'helpful':
-        hint_ref.update({u'helpful':transforms.Increment(1)})
-    elif type == 'nothelpful':
-        hint_ref.update({u'helpful':transforms.Increment(-1)})
-    elif type == 'funny':
-        hint_ref.update({u'funny':transforms.Increment(1)})
-    elif type == 'notfunny':
-        hint_ref.update({u'funny':transforms.Increment(-1)})
+
+    if type == 'helpful' or type == 'nothelpful':
+        helpful_ref = db.collection(u'helpfulVotes').document(hintId)
+        helpful_dict = helpful_ref.get().to_dict()
+        if not helpful_dict:
+            hint_ref.update({u'helpful':transforms.Increment(1)})
+            helpful_ref.set({userId: True})
+        elif not helpful_dict[userId]:
+            hint_ref.update({u'helpful':transforms.Increment(1)})
+            helpful_ref.update({userId: True})
+        else:
+            hint_ref.update({u'helpful':transforms.Increment(-1)})
+            helpful_ref.update({userId: firestore.DELETE_FIELD})
+
+    elif type == 'funny' or type == 'notfunny':
+        funny_ref = db.collection(u'funnyVotes').document(hintId)
+        funny_dict = funny_ref.get().to_dict()
+        if not funny_dict:
+            hint_ref.update({u'funny':transforms.Increment(1)})
+            funny_ref.set({userId: True})
+        elif not funny_dict[userId]:
+            hint_ref.update({u'funny':transforms.Increment(1)})
+            funny_ref.update({userId: True})
+        else:
+            hint_ref.update({u'funny':transforms.Increment(-1)})
+            funny_ref.update({userId: firestore.DELETE_FIELD})
     else:
         return Response('failed', 'Invalid type', 401)
+
     return Response('Hint successfully updated', 200);

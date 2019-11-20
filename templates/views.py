@@ -52,4 +52,4 @@ def put_hint(hintId):
         return Response('failed', 'Unauthorized', 401)
 
     type = request.args.get('type', None)
-    return templates.api.UpdateHint(hintId, type=type)
+    return templates.api.UpdateHint(hintId, userId=claims['user_id'], type=type)
