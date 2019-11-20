@@ -3,10 +3,10 @@ import {withRouter} from 'react-router-dom';
 import {withFirebase} from '../firebase';
 import hintService from '../../services/hints'
 
-const SignInPage = () => (
+const LoginPage = () => (
   <div>
     <h1>Sign In</h1>
-    <SignInForm />
+    <LoginForm />
   </div>
 )
 
@@ -16,7 +16,7 @@ const INITIAL_STATE = {
   error: null
 }
 
-const SignInForm = withRouter(withFirebase(props => {
+const LoginForm = withRouter(withFirebase(props => {
   const [state, setState] = useState(INITIAL_STATE);
 
   const onSubmit = event => {
@@ -65,4 +65,4 @@ const SignInForm = withRouter(withFirebase(props => {
   )
 }))
 
-export default SignInPage;
+export default LoginPage;
