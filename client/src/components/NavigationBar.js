@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 
 const LoginLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
+const SignupLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
 
 const useStyles = makeStyles(theme => ({
    root: {
@@ -47,7 +48,9 @@ const NavigationBar = ({firebase, userAuth}) => {
                   <Typography variant = 'button'>Sign In</Typography>
                </Button>
                <Typography variant = 'caption' className = {classes.captionText}> or </Typography>
-               <Button variant = 'text'>
+               <Button 
+                  variant = 'text'
+                  component = {SignupLink} to = '/signup'>
                   <Typography variant = 'button'>Sign Up</Typography>
                </Button>
             </>

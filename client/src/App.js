@@ -13,11 +13,9 @@ import {
    ThemeProvider,
 } from 'react-bootstrap'
 
-import Home from './components/pages/Home';
-import SignInPage from './components/pages/Login';
-import SignUpPage from './components/pages/SignUp';
-import LoggedIn from './components/LoggedIn';
-import LoggedOff from './components/LoggedOff';
+import Home from './components/pages/Home'
+import LoginPage from './components/pages/Login'
+import SignupPage from './components/pages/Signup'
 
 import hintService from './services/hints'
 
@@ -39,7 +37,8 @@ const App = withFirebase(props => {
          <Router>
            <NavigationBar userAuth = {userAuth}/>
            {/* <Route exact path = '/' render = {() => <Home/>} /> */}
-            <Route exact path = '/login' render = {() => <SignInPage/>} />
+            <Route exact path = '/login' render = {() => <LoginPage/>} />
+            <Route exact path = '/signup' render = {() => <SignupPage/>} />
          </Router>
       </>
    )
