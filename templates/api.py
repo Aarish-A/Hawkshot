@@ -36,10 +36,14 @@ def GetHint(data): #TODO implement all filters
     query = ref
     query = query.limit(int(data['limit']))
 
+    print('sort params: ', data)
+
     if data['cardId']:
         query = query.where(u'cardId', u'==', data['cardId'])
     elif data['cardName']:
+        print('u good chief')
         query = query.where(u'cardName', u'==', data['cardName'])
+
     if data['ownerId']:
         query = query.where(u'ownerId', u'==', data['ownerId'])
 
@@ -60,6 +64,7 @@ def GetHint(data): #TODO implement all filters
 
     if data['hintId']:
         query = query.document(data['hintId'])
+
     #TODO sorttype
     docs = query.stream()
 
