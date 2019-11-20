@@ -39,11 +39,10 @@ def GetHint(data): #TODO implement all filters
     print('sort params: ', data)
 
     if data['cardId']:
-        query = query.where(u'cardId', u'==', data['cardId'])
+        query = query.where(u'cardId', u'in', data['cardId'].split(','))
     elif data['cardName']:
-        print('u good chief')
-        query = query.where(u'cardName', u'==', data['cardName'])
-
+        print('u good chief', data['cardName'].split(','))
+        query = query.where(u'cardName', u'in', data['cardName'].split(','))
     if data['ownerId']:
         query = query.where(u'ownerId', u'==', data['ownerId'])
 
