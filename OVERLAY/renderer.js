@@ -14,10 +14,10 @@ const request = require('request');
 const { ipcRenderer } = require('electron');
 
 
-ipcRenderer.on('action-update-label', (event, arg) => {
 
-                // Update the second window label content with the data sent from
-                // the first window :) !
+ipcRenderer.on('updatecardID', (event, arg) => {
+
+                // Updates the display with data from the cardID
                 let currcard = document.getElementById("currcard");
 
                 currcard.innerHTML = arg.message;

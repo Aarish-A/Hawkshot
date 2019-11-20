@@ -7,43 +7,37 @@ const request = require('request');
 const { ipcMain } = require('electron');
 const { ipcRenderer } = require('electron');
 
+//TODO (in order):
+//fix eventlistener bug (I have no idea why that isn't working, check display.html)
+//fix get request format if it isn't accurate
+//add auth for client voting if needed
+//add client voting post requests
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 let overlayWindow
-//let updatetime
-//let count
+let sorttype = "/new/" 
+
 
 function createWindow () {
 
-//count = 0;
-//updatetime = new Date();
+
 
 let display = screen.getPrimaryDisplay();
 let width = display.bounds.width;
 let height = display.bounds.height;
-  //var screenyoink = JSON.parse(axios.get('http://localhost:21337/positional-rectangles'));
   mainWindow = new BrowserWindow({
-	  
+	  //creates the window in the bottom right corner where hints are displayed
     width: 300, 
     height: 500, 
 	frame:false,
 	x: width - 300,
-	y: height-500,
-	//setIgnoreMouseEvents:true,
-                
+	y: height-500,                
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-	  
-	  
-    }
-	
-	
-	 
+      preload: path.join(__dirname, 'preload.js') 	  
+		}	 
   })
   
-  
+  //creates the overlaywindow that covers the screen and records mouse movements
   overlayWindow = new BrowserWindow ({
 	  width: width,
 	  height: height,
@@ -58,36 +52,29 @@ let height = display.bounds.height;
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
-  overlayWindow.loadFile('display.html')
-  overlayWindow.setIgnoreMouseEvents(true, { forward: true })
+  overlayWindow.loadFile('overlay.html')
+  overlayWindow.setIgnoreMouseEvents(true, { forward: true }) 
+  //allows you to click through the overlayWindow and actually interact with the game
   
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
 
-  // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   })
   
   overlayWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     overlayWindowWindow = null
   })
 }
-
+//VOTING IN CLIENT TO BE ADDED IN FUTURE UPDATE
+/*
 function addhelpful()
 
 {
-	console.log("bruh");
+	
 	
 	//axios.post('https://hawkshot.herokuapp.com//')
-	//POST ID WITH PARAMETER HELPFUL
+
 	
 }
 
@@ -99,55 +86,89 @@ function addfunny ()
 	
 	//axios.post('https://hawkshot.herokuapp.com//')
 	
-	//POST ID WITH PARAMETER FUNNY
+	//
 }
+*/ 
+
+//get requests from api: assuming format of url/cardID/sorttype (helpful,funny,new) /previous if previous
+//change if needed, at time of writing api isn't up on heroku
 
 function nexthint()
 
 {
-	
+	//displays next hint with current cardID and sort
 	document.getElementById("hint").textContent = "hint cycled";
-	//axios.get('https://hawkshot.herokuapp.com//')
-	//NEXT HINT
+	axios.get('http://hawkshot.herokuapp.com/'.concat(document.getElementById("currcard").textContent,sorttype)).then((response) =>
+	{
+		document.getElementById("hint").textContent = response
+	});	
+	
+	
+	
+}
+
+function prevhint()
+
+{
+	//displays previous hint with current cardID and sort
+	document.getElementById("hint").textContent = "hint cycled back";
+	axios.get('http://hawkshot.herokuapp.com/'.concat(document.getElementById("currcard").textContent, sorttype, "previous")).then((response) =>
+	{
+		document.getElementById("hint").textContent = response
+	})
+	
+	
+	
+}
+
+//the next 3 functions just change the sort type, nothing too fancy
+function sorthelpful()
+
+{
+	sorttype = "/helpful/"
+	
+	
+}
+
+function sortfunny()
+
+{
+	sorttype = "/funny/"
 	
 	
 }
 
 
-function readhover(event)
-{
-	
-	//if(new Date() - updatetime > 200)
+function sortnew()
 
-//{
+{
+	sorttype = "/new/"
+	
+	
+}
+
+function readhover(event) //gets the x and y positions of the mouse, then runs getcardcode with those positions
+{
+
 	var positionobject;
 	var xpos = event.screenX;
 	var ypos = event.screenY;
 axios.get('http://localhost:21337/positional-rectangles').then((response) =>
 	{	
 	positionobject = response
-	
-	//console.log(JSON.stringify(positionobject.data.Rectangles[0].TopLeftX) + JSON.stringify(positionobject.data.Rectangles[0].Width) + " "+xpos+ " " + ypos);
-	//console.log(xpos+1);
 	document.getElementById("name").textContent = getcardcode(positionobject, xpos, ypos);
 	
 	
 	});
-	//count +=1;
-	//updatetime = new Date();
-	//console.log(count);
-	
-//}
 
 }
 
-function getcardcode(positions, x, y)
+function getcardcode(positions, x, y) //takes in the positional-rectangles call
+//and determines which cardID a given x and y value correspond to
 
 {
-	var cardcode = "none"
-	
-	
-	
+	var cardcode = document.getElementById("name").textContent 
+	//since readhover updates the title of the overlayWindow, this allows us to access the previous function call
 	for (z = 0; z < parseInt(positions.data.Rectangles.length); z++)
 	{
 		if((x > positions.data.Rectangles[z].TopLeftX) && (x < positions.data.Rectangles[z].TopLeftX + positions.data.Rectangles[z].Width)
@@ -158,44 +179,17 @@ function getcardcode(positions, x, y)
 			}
 		
 	}
-	console.log(cardcode,x,y);
+	console.log(cardcode,x,y); //for testing
 	 
-	return cardcode;
-	
-	
+	return cardcode;	
 	
 }
 
 
-function throttle(callback, limit, time) {
-    /// monitor the count
-    var calledCount = 0;
-
-    /// refresh the `calledCount` varialbe after the `time` has been passed
-    setInterval(function(){ calledCount = 0 }, time);
-
-    /// creating a closure that will be called
-    return function(){
-        /// 	
-        if (limit > calledCount) {
-            /// increase the count
-            calledCount++;
-            callback(); /// call the function
-        } 
-        else console.log('not calling because the limit has exceeded');
-    };
-}
-
-
-ipcMain.on('request-update-label-in-second-window', (event, arg) => {
-    // Request to update the label in the renderer process of the second window
-    // We'll send the same data that was sent to the main process
-    // Note: you can obviously send the 
-    mainWindow.webContents.send('action-update-label', arg);
+ipcMain.on('sendcardID', (event, arg) => {
+    //on receiving an ipc message from the overlayWindow, sends it to the display window 
+    mainWindow.webContents.send('updatecardID', arg);
 });
-
-
-
 
 
 
@@ -203,9 +197,6 @@ ipcMain.on('request-update-label-in-second-window', (event, arg) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow)
-
-
-
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -220,7 +211,6 @@ app.on('activate', function () {
   if (mainWindow === null) createWindow()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+
 
 

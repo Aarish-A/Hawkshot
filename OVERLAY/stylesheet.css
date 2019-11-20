@@ -44,29 +44,6 @@
 
 
 
-
-
-
-.bottomrighttitle {
-  position: absolute;
-  bottom: 400px;
-  right: 200px;
-
-}
-.bottomrighthint {
-  position: absolute;
-  bottom: 300px;
-  right: 150px;
-
-}
-
-.bottomrightname {
-  position: absolute;
-  bottom: 200px;
-  right: 150px;
-
-}
-
 .dropbtn {
   background-color: #4CAF50;
   color: white;
