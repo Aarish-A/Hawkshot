@@ -11,7 +11,12 @@ const MuiTheme = createMuiTheme({
          'sans-serif'
      ].join(','),
       h1: {
-         fontSize: '6em'
+         fontSize: '6em',
+         textDecoration: 'none',
+         textColor: 'black',
+         '&:visited': {
+            color: 'black'
+         }
       }
    }
 })

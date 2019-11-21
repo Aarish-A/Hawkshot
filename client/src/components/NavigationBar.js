@@ -9,8 +9,9 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 
-const LoginLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
-const SignupLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />);
+const HomeLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />)
+const LoginLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />)
+const SignupLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {...props} />)
 
 const useStyles = makeStyles(theme => ({
    root: {
@@ -75,9 +76,11 @@ const NavigationBar = ({firebase, userAuth}) => {
       <Container className = {classes.root} maxWidth = {false}>
          <Grid container alignItems = 'center'>
             <Grid item sm = {8} className = {classes.title}>
-               <Typography variant = 'h1'>
-                  Hawkshot
-               </Typography>
+               {/* <Button variant = 'text' component = {HomeLink} to = '/'> */}
+                  <Typography variant = 'h1' component = {HomeLink} to = '/'>
+                     Hawkshot
+                  </Typography>
+               {/* </Button> */}
             </Grid>
             <Grid item className = {classes.buttons}>
                {loginButtons()}
