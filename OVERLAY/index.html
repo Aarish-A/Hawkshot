@@ -9,15 +9,26 @@
 	
 		
     <title>Hawkshot</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link href="stylesheet.css" rel="stylesheet">
 	
 	
   </head>
   <body class = "displaybody">
   
+  <div class="dropdown">
+  <button class="dropbtn">Sort by:</button>
+  <div class="dropdown-content">
+    <button onclick="sortpopular(event);">View Popular</button> 
+    <button onclick="sorttrending(event);">View Trending</button>
+    <button onclick="sortnew(event);">View New</button>
+  </div>
+</div> 
+
+
   <h1 class=>Welcome to Hawkshot</h1>
 	
-	<p id="hint"> Right click a card to display its hints</p>
+	<p id="hint">Hover over a card to display its hints</p>
 	<p id="currcard"> Current card ID</p>
 	
   
@@ -25,22 +36,15 @@
 
     
 	
-	<button onclick="funnyhint()">show funny hint</button> 
-	<button onclick="helpfulhint()">show helpful hint</button> 
-	 <button onclick="addfunny()">vote funny</button> 
-	 <button onclick="addhelpful()">vote helpful</button> 
+	<button  class="btn btn-primary" onclick="funnyhint(event);">Funny Hint</button> 
+	<button class="btn btn-primary" onclick="helpfulhint(event);">Helpful Hint</button> 
+	 <button class="btn btn-primary" onclick="addfunny(event);">Vote Funny</button> 
+	 <button class="btn btn-primary" onclick="addhelpful(event);">Vote Helpful</button> 
 	 
 
 	 
 	
-	  <div class="dropdown">
-  <button class="dropbtn">Sort by:</button>
-  <div class="dropdown-content">
-    <button onclick="sortpopular()">View Popular</button> 
-    <button onclick="sorttrending()">View Trending</button>
-    <button onclick="sortnew()">View New</button>
-  </div>
-</div> 
+	  
 
 
 	 

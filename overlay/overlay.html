@@ -8,35 +8,17 @@
 </head>
 
 
-<body id = "screen" onmousemove = "readhover(event);">
+<body id="screen" onmousemove = "readhover(event);">
 
 <div class="ex1">
 
 	
 	</div>
-<script>
-
-//uses ipcmessage to send the current card id to the display window through main.js
-//currently broken, following code from 
-//https://ourcodeworld.com/articles/read/536/how-to-send-information-from-one-window-to-another-in-electron-framework
-//but the eventlistener never triggers (no console.log)- aarish/bill please help
-const {ipcRenderer} = require('electron');
 
 
-document.body.addEventListener('mousemove', function() => {
-				
-               let Data = {
-                message: = document.title
-				}
-				console.log(Data.message);
 
-                // Trigger the event listener action to this event in the renderer process and send the data
-                ipcRenderer.send('sendcardID', Data);
-            },false);
-
-</script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="./main.js"></script>
+<script src="./renderer2.js"></script>
 
 </body>
 </html>

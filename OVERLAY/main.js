@@ -4,9 +4,9 @@ const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
 const request = require('request');	
-const { ipcMain } = require('electron');
-const { ipcRenderer } = require('electron');
-let activehintid;
+const { ipcMain } = require('electron')
+const { ipcRenderer } = require('electron')
+
 
 //TODO (in order):
 //fix eventlistener bug (I have no idea why that isn't working, check display.html)
@@ -16,13 +16,14 @@ let activehintid;
 
 let mainWindow
 let overlayWindow
-let sorttype = "/new/" 
+
+
 
 
 function createWindow () {
 
-
-
+let sorttype = "/new/" 
+let activehintid
 let display = screen.getPrimaryDisplay();
 let width = display.bounds.width;
 let height = display.bounds.height;
@@ -69,39 +70,29 @@ let height = display.bounds.height;
 }
 //VOTING IN CLIENT TO BE ADDED IN FUTURE UPDATE
 
-function addhelpful()
+function addhelpful(event)
 
 {
-	
-	
-	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"helpfulVotes"))
-
-	
+	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"/helpfulVotes"));	
 }
 
-function addfunny ()
+function addfunny(event)
 
 {
-	
-	
-	
-	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"funnyVotes"))
-	
-	
+	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"/funnyVotes"));
 }
 
 
 //get requests from api: assuming format of url/cardID/sorttype (helpful,funny,new) /previous if previous
 //change if needed, at time of writing api isn't up on heroku
 
-function funnyhint()
-
+function funnyhint(event)
 {
 	//displays a funny hint with current cardID and sort
-	document.getElementById("hint").textContent = "hint cycled";
+	document.getElementById("hint").textContent = "No funny hints available"
 	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
-		document.getElementById("hint").textContent = response.content
+		document.getElementById("hint").textContent = response.content;
 		activehintid = response.id
 	});	
 	
@@ -109,84 +100,48 @@ function funnyhint()
 	
 }
 
-function helpfulhint()
-
+function helpfulhint(event)
 {
 	//displays a helpful with current cardID and sort
-	document.getElementById("hint").textContent = "hint cycled back";
+	document.getElementById("hint").textContent = "No helpful hints available";
 	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
-		document.getElementById("hint").textContent = response.content
+		document.getElementById("hint").textContent = response.content;
 		activehintid = response.id
-	})
+	});
 	
 	
 	
 }
 
 //the next 3 functions just change the sort type, nothing too fancy
-function sorthelpful()
-
+function sortpopular(event)
 {
-	sorttype = "helpful"
+	sorttype = "popular"
+	console.log(sorttype);
 	
 	
 }
 
-function sorttrending()
-
+function sorttrending(event)
 {
 	sorttype = "trending"
+	console.log(sorttype);
 	
 	
 }
 
 
-function sortnew()
+function sortnew(event)
 
 {
 	sorttype = "new"
+	console.log(sorttype);
 	
 	
 }
 
-function readhover(event) //gets the x and y positions of the mouse, then runs getcardcode with those positions
-{
 
-	var positionobject;
-	var xpos = event.screenX;
-	var ypos = event.screenY;
-axios.get('http://localhost:21337/positional-rectangles').then((response) =>
-	{	
-	positionobject = response
-	document.getElementById("name").textContent = getcardcode(positionobject, xpos, ypos);
-	
-	
-	});
-
-}
-
-function getcardcode(positions, x, y) //takes in the positional-rectangles call
-//and determines which cardID a given x and y value correspond to
-
-{
-	var cardcode = document.getElementById("name").textContent 
-	//since readhover updates the title of the overlayWindow, this allows us to access the previous function call
-	for (z = 0; z < parseInt(positions.data.Rectangles.length); z++)
-	{
-		if((x > positions.data.Rectangles[z].TopLeftX) && (x < positions.data.Rectangles[z].TopLeftX + positions.data.Rectangles[z].Width)
-			&& (y < positions.data.Rectangles[z].TopLeftY) && (y > positions.data.Rectangles[z].TopLeftY - positions.data.Rectangles[z].Height))
-			{
-				cardcode = positions.data.Rectangles[z].CardCode;
-				break;
-			}
-		
-	}
-	console.log(cardcode,x,y); //for testing
-	 
-	return cardcode;	
-	
-}
 
 
 ipcMain.on('sendcardID', (event, arg) => {
