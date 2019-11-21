@@ -21,18 +21,17 @@ import HintForm from '../HintForm'
 import hintService from '../../services/hints'
 
 const Home = withFirebase(props => {
-   const [sort, setSort] = useState({
-      category: 'all',
-      order: 'popular',
-      type: 'hint',
-   })
 
    const [hintParams, setHintParams] = useState({
-      cardId: '',
-      ownerId: '',
-      limit: 2,
-      hintId: '',
-      sortBy: ''
+      cardId: null,
+      cardName: null,
+      ownerId: null,
+      ownerName: null,
+      limit: 5,
+      hintId: null,
+      sortBy: null,
+      sortCat: null,
+      sortType: null,
    })
 
    const [hints, setHints] = useState([])
@@ -46,29 +45,14 @@ const Home = withFirebase(props => {
    const changeSort = newSort => () => {
       const newHintParams = {
          ...hintParams,
-         sortBy: newSort.category === 'all' ? '' : 'd_' + newSort.category
+         ...newSort
       }
 
-      setSort({
-         ...sort,
-         ...newSort
-      })
       setHintParams(newHintParams)
-
       hintService
          .get(newHintParams)
          .then(hints => setHints(hints))
-         .then(console.log('Set new hints!'))
-   }
-
-   const uploadHint = event => {
-      event.preventDefault()
-
-      const newHint = {
-
-      }
-
-      hintService.add(newHint)
+         .then(console.log('Set new hints!', newHintParams))
    }
 
    return(
@@ -87,24 +71,24 @@ const Home = withFirebase(props => {
                   <h3>Sort by:</h3>
                   <ButtonToolbar>
                      <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({category : 'all'})}>
+                        <Button variant = 'secondary' onClick = {changeSort({sortCat : 'all'})}>
                            All
                         </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({category : 'funny'})}>
+                        <Button variant = 'secondary' onClick = {changeSort({sortCat : 'funny'})}>
                            Funny
                         </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({category : 'helpful'})}>
+                        <Button variant = 'secondary' onClick = {changeSort({sortCat : 'helpful'})}>
                            Helpful
                         </Button>
                      </ButtonGroup>
                      <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({order : 'popular'})}>
+                        <Button variant = 'secondary' onClick = {changeSort({sortBy : 'popular'})}>
                            Popular
                         </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({order : 'recent'})}>
+                        <Button variant = 'secondary' onClick = {changeSort({sortBy : 'recent'})}>
                            Recent
                         </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({order : 'trending'})}>
+                        <Button variant = 'secondary' onClick = {changeSort({sortBy : 'trending'})}>
                            Trending
                         </Button>
                      </ButtonGroup>

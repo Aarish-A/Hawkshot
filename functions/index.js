@@ -17,18 +17,20 @@ exports.aggregateVotes = functions.firestore
     const funny = change.after.data().funny;
     const helpful = change.after.data().helpful;
     const timestamp = change.after.data().timestamp;
+    //const cardId = change.after.data().cardId;
 
-    const ref = db.collection('hints').doc(context.params.hintId);
+    const hintRef = db.collection('hints').doc(context.params.hintId);
+    //const cardRef = db.collection('cards').doc(cardId);
 
     return db.runTransaction(transaction => {
-      return transaction.get(ref).then(hint => {
+      return transaction.get(hintRef).then(hint => {
         const total = funny + helpful;
         const minutesElapsed = ((new Date()).getTime() - timestamp) / 60000;
         const score = total * Math.pow(0.5, minutesElapsed/120);
-        return transaction.update(ref, {
+        return transaction.update(hintRef, {
           votes: total,
           trending: score,
-        });
+        })
       });
     });
   });
