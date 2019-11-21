@@ -6,6 +6,7 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 const request = require('request');	
 const { ipcMain } = require('electron');
 const { ipcRenderer } = require('electron');
+let activehintid;
 
 //TODO (in order):
 //fix eventlistener bug (I have no idea why that isn't working, check display.html)
@@ -67,13 +68,13 @@ let height = display.bounds.height;
   })
 }
 //VOTING IN CLIENT TO BE ADDED IN FUTURE UPDATE
-/*
+
 function addhelpful()
 
 {
 	
 	
-	//axios.post('https://hawkshot.herokuapp.com//')
+	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"helpfulVotes"))
 
 	
 }
@@ -84,37 +85,39 @@ function addfunny ()
 	
 	
 	
-	//axios.post('https://hawkshot.herokuapp.com//')
+	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"funnyVotes"))
 	
-	//
+	
 }
-*/ 
+
 
 //get requests from api: assuming format of url/cardID/sorttype (helpful,funny,new) /previous if previous
 //change if needed, at time of writing api isn't up on heroku
 
-function nexthint()
+function funnyhint()
 
 {
-	//displays next hint with current cardID and sort
+	//displays a funny hint with current cardID and sort
 	document.getElementById("hint").textContent = "hint cycled";
-	axios.get('http://hawkshot.herokuapp.com/'.concat(document.getElementById("currcard").textContent,sorttype)).then((response) =>
+	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
-		document.getElementById("hint").textContent = response
+		document.getElementById("hint").textContent = response.content
+		activehintid = response.id
 	});	
 	
 	
 	
 }
 
-function prevhint()
+function helpfulhint()
 
 {
-	//displays previous hint with current cardID and sort
+	//displays a helpful with current cardID and sort
 	document.getElementById("hint").textContent = "hint cycled back";
-	axios.get('http://hawkshot.herokuapp.com/'.concat(document.getElementById("currcard").textContent, sorttype, "previous")).then((response) =>
+	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
-		document.getElementById("hint").textContent = response
+		document.getElementById("hint").textContent = response.content
+		activehintid = response.id
 	})
 	
 	
@@ -125,15 +128,15 @@ function prevhint()
 function sorthelpful()
 
 {
-	sorttype = "/helpful/"
+	sorttype = "helpful"
 	
 	
 }
 
-function sortfunny()
+function sorttrending()
 
 {
-	sorttype = "/funny/"
+	sorttype = "trending"
 	
 	
 }
@@ -142,7 +145,7 @@ function sortfunny()
 function sortnew()
 
 {
-	sorttype = "/new/"
+	sorttype = "new"
 	
 	
 }
