@@ -4,6 +4,8 @@ admin.initializeApp();
 
 const db = admin.firestore();
 
+const REPORT_THRESHOLD = 5;
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -34,3 +36,27 @@ exports.aggregateVotes = functions.firestore
       });
     });
   });
+
+  exports.addReportCount = functions.firestore
+    .document('reports/{reportId}')
+    .onCreate((snap, context) => {
+      const hintId = snap.data().hintId;
+      const reportCountRef = db.collection('reportCounts').doc(hintId);
+
+      return db.runTransaction(transaction => {
+        return transaction.get(reportCountRef).then(reportCount => {
+          const newReportCount = reportCount.exists? reportCount.data().reports + 1 : 0;
+          if(newReportCount < REPORT_THRESHOLD){
+            return transaction.set(reportCountRef, {
+              reports: newReportCount
+            });
+          }else{
+            const hintRef = db.collection('hints').doc(hintId);
+            return transaction.update(hintRef, {
+              hidden: true
+            })
+          }
+        })
+      })
+
+    });
