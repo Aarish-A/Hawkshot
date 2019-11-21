@@ -27,9 +27,17 @@ const add = async newHint => {
         Authorization: "Bearer " + token
       }}
     ).then(response => {
-      console.log("new hint", response.data);
+      console.log("success: ", response.data);
+      return {
+        successful: true,
+        response: response.data
+      }
     }).catch(error => {
-      console.error(error);
+      console.error("error: ", error);
+      return {
+        successful: false,
+        response: error
+      }
     });
 }
 

@@ -41,7 +41,10 @@ const HintForm = props => {
                content: hint,
                cardId: selectedCard
             })
-            .then(setShow(false))
+            .then(response => {
+              // TODO something with response.successful (alert?)
+              setShow(false)
+            })
             .catch(err => console.error(err))
       }
    }
@@ -57,7 +60,7 @@ const HintForm = props => {
             style = {{width: '100%'}}
             scrollable
             size = 'xl'
-         > 
+         >
             <Modal.Header closeButton>
                <Modal.Title>
                   Submit a new hint
@@ -73,15 +76,15 @@ const HintForm = props => {
                                  {cards.find(card => code === card.cardCode).name}
                               </Button>))
                            }
-                        </ButtonGroup> 
+                        </ButtonGroup>
                      </Col>
                      <Col>
                         <Form  onSubmit = {onSubmit}>
                            <Form.Group>
                               <Form.Label>Bless us with ur knowledge</Form.Label>
-                              <Form.Control 
-                                 as = 'textarea' 
-                                 rows = '3' 
+                              <Form.Control
+                                 as = 'textarea'
+                                 rows = '3'
                                  placeholder = 'hint goes here'
                                  value = {hint}
                                  onChange = {onChange}
@@ -90,10 +93,10 @@ const HintForm = props => {
                            <Button variant = 'primary' type = 'submit'>
                               Submit
                            </Button>
-                        </Form>     
+                        </Form>
                      </Col>
                   </Row>
-               </Container>  
+               </Container>
             </Modal.Body>
             <Modal.Footer>
                Please be respectful!
