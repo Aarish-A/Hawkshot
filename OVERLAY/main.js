@@ -1,11 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, screen} = require('electron')
+const {app, BrowserWindow, screen, ipcMain} = require('electron')
 const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
 const request = require('request');	
-const { ipcMain } = require('electron')
-const { ipcRenderer } = require('electron')
+
 
 
 //TODO (in order):
