@@ -17,22 +17,21 @@ const useStyles = makeStyles(theme => ({
    root: {
       flexGrow: 1,
       background: '#f8f8f8',
-      padding: '0em',
-      margin: theme.spacing(0),
-      border: '0.05em black solid'
+      padding: '1em',
+      margin: '0',
    },
    title: {
-      textAlign: 'left'
+      textAlign: 'left',
+      marginLeft: '1.5em'
    },
    captionText: {
       marginRight: '0.25em',
       marginLeft: '0.55em',
    },
    buttons: {
-      flexGrow: 1,
       position: 'absolute',
       right: '2em',
-      top: '2.5em',
+      top: '1.8em',
    }
 }))
 
@@ -74,13 +73,11 @@ const NavigationBar = ({firebase, userAuth}) => {
 
    return (
       <Container className = {classes.root} maxWidth = {false}>
-         <Grid container alignItems = 'center'>
+         <Grid container style = {{position: 'relative'}}>
             <Grid item sm = {8} className = {classes.title}>
-               {/* <Button variant = 'text' component = {HomeLink} to = '/'> */}
                   <Typography variant = 'h1' component = {HomeLink} to = '/'>
                      Hawkshot
                   </Typography>
-               {/* </Button> */}
             </Grid>
             <Grid item className = {classes.buttons}>
                {loginButtons()}

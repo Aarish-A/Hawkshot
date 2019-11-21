@@ -28,7 +28,7 @@ const App = ({firebase}) => {
       <>
          <Router>
             <NavigationBar userAuth = {userAuth}/>
-           {/* <Route exact path = '/' render = {() => <Home/>} /> */}
+            <Route exact path = '/' render = {() => <Home/>} />
             <Route exact path = '/login' render = {() => <LoginPage/>} />
             <Route exact path = '/signup' render = {() => <SignupPage/>} />
          </Router>

@@ -17,6 +17,9 @@ const MuiTheme = createMuiTheme({
          '&:visited': {
             color: 'black'
          }
+      },
+      body2: {
+         color: 'grey'
       }
    }
 })
