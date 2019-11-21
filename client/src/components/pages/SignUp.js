@@ -1,96 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import {Link, withRouter} from 'react-router-dom'
 
-//higher order component, don't ask me what this does
-import  {withFirebase} from '../firebase';
-import hintService from '../../services/hints'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
-const INITIAL_STATE = {
-  username: '',
-  email: '',
-  passwordOne: '',
-  passwordTwo: '',
-  error: null,
-};
+import SignupForm from '../forms/SignupForm'
 
-const SignUpPage = () => (
-  <div>
-    <h1>register u ho</h1>
-      <SignUpForm />
-  </div>
-);
+const useStyles = makeStyles(theme => ({
+   root: {
+      margin: 'auto',
+      marginTop: '2em',
+      width: '50%',
+      minWidth: '500px'
+   },
+   grid: {
+      width: '100%',
+      margin: 'auto',
+      border: 'black 0.1em solid',
+      textAlign: 'center'
+   }
+}))
 
-const SignUpFormBase = props => {
-  const [state, setState] = useState(INITIAL_STATE);
-
-  const onSubmit = event => {
-
-    props.firebase
-      .createUserWithEmailAndPassword(state.email, state.passwordOne)
-      .then(authUser => {
-        authUser.user.updateProfile({
-          displayName: state.username
-        })
-        hintService.updateToken(props.firebase);
-        setState({ ...INITIAL_STATE});
-        props.history.push('/');
-      })
-      .catch(error => {
-        setState({...state, error: error});
-      });
-
-    event.preventDefault();
-  };
-
-  const onChange = event => {
-    setState({...state, [event.target.name]: event.target.value});
-  };
-
-  const isInvalid =
-    state.passwordOne !== state.passwordTwo ||
-    state.passwordOne === '' ||
-    state.email === '' ||
-    state.username === '';
-
-  return(
-    <form onSubmit={onSubmit}>
-    <input
-        name="username"
-        value={state.username}
-        onChange={onChange}
-        type="text"
-        placeholder="Username"
-      />
-      <input
-        name="email"
-        value={state.email}
-        onChange={onChange}
-        type="text"
-        placeholder="Email Address"
-      />
-      <input
-        name="passwordOne"
-        value={state.passwordOne}
-        onChange={onChange}
-        type="password"
-        placeholder="Password"
-      />
-      <input
-        name="passwordTwo"
-        value={state.passwordTwo}
-        onChange={onChange}
-        type="password"
-        placeholder="Confirm Password"
-      />
-      <button disabled={isInvalid} type="submit">Sign Up</button>
-
-      {state.error && <p>{state.error.message}</p>}
-    </form>
-  );
+const SignupPage = () => {
+   const classes = useStyles()
+   return (
+      <Paper elevation = {3} className = {classes.root}>
+      <Grid container direction = 'column' justify = 'center' alignContent = 'center' alignItems = 'center' spacing = {3} className = {classes.grid}>
+         <Grid item>
+            <Typography variant = 'h3'>Sign Up</Typography>
+         </Grid>
+         <Grid item >
+            <SignupForm />
+         </Grid>
+      </Grid>
+      </Paper>
+   )
 }
 
-const SignUpForm = withRouter(withFirebase(SignUpFormBase));
-
-export default SignUpPage;
-
-export {SignUpForm}
+export default SignupPage;

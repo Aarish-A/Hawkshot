@@ -1,68 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import {withRouter} from 'react-router-dom';
-import {withFirebase} from '../firebase';
-import hintService from '../../services/hints'
 
-const LoginPage = () => (
-  <div>
-    <h1>Sign In</h1>
-    <LoginForm />
-  </div>
-)
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
-const INITIAL_STATE = {
-  email: '',
-  password: '',
-  error: null
-}
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
-const LoginForm = withRouter(withFirebase(props => {
-  const [state, setState] = useState(INITIAL_STATE);
+import LoginForm from '../forms/LoginForm'
 
-  const onSubmit = event => {
-    event.preventDefault();
-    console.log("BRUH",state);
-    props.firebase
-      .signInWithEmailAndPassword(state.email, state.password)
-      .then(() => {
-        hintService.updateToken(props.firebase);
-        setState({ ...INITIAL_STATE});
-        props.history.push('/');
-      })
-      .catch(error => {
-        setState({...state, error: error});
-      });
-  };
-
-  const onChange = event => {
-    setState({...state, [event.target.name]: event.target.value});
-  };
-
-  const isInvalid =
-    state.email === '' ||
-    state.password === '';
-
-  return (
-    <form onSubmit={onSubmit}>
-      <input
-        name="email"
-        value={state.email}
-        onChange={onChange}
-        type="text"
-        placeholder="Email Address"
-      />
-      <input
-        name="password"
-        value={state.password}
-        onChange={onChange}
-        type="password"
-        placeholder="Password"
-      />
-      <button disabled={isInvalid} type="submit"> Sign In </button>
-
-      {state.error && <p>{state.error.message}</p>}
-    </form>
-  )
+const useStyles = makeStyles(theme => ({
+   root: {
+      margin: 'auto',
+      marginTop: '2em',
+      width: '50%',
+      minWidth: '500px'
+   },
+   grid: {
+      width: '100%',
+      margin: 'auto',
+      border: 'black 0.1em solid',
+      textAlign: 'center'
+   }
 }))
+
+const LoginPage = () => {
+   const classes = useStyles()
+   return (
+      <Paper elevation = {3} className = {classes.root}>
+      <Grid container direction = 'column' justify = 'center' alignContent = 'center' alignItems = 'center' spacing = {3} className = {classes.grid}>
+         <Grid item sm = {12}>
+            <Typography variant = 'h3'>Sign In</Typography>
+         </Grid>
+         <Grid item >
+            <LoginForm />
+         </Grid>
+      </Grid>
+      </Paper>
+   )
+}
 
 export default LoginPage;

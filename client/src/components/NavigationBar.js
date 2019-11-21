@@ -15,9 +15,9 @@ const SignupLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {
 const useStyles = makeStyles(theme => ({
    root: {
       flexGrow: 1,
-      background: '#fafafa',
+      background: '#f8f8f8',
       padding: '0em',
-      margin: theme.spacing(0.5),
+      margin: theme.spacing(0),
       border: '0.05em black solid'
    },
    title: {
