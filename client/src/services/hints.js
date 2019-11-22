@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:5000/api/hints'
+const baseUrl = '/api/hints'
+// const baseUrl = 'http://localhost:5000/api/hints'
 
 let token = null;
 
