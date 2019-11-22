@@ -101,10 +101,13 @@ def get_card():
     return templates.api.GetCard(data)
 
 # Route for getting reports
-# No auth token required, anybody can access
+# AUTH TOKEN REQUIRED - user must be signed in
 @app.route('/api/votes', methods=['GET'])
 def get_vote():
-    data = {
-        'ownerId': request.args.get('ownerId', None)
-    }
+    id_token = request.headers['Authorization'].split(' ').pop()
+    claims = google.oauth2.id_token.verify_firebase_token(id_token, HTTP_REQUEST)
+    if not claims:
+        return Response('failed', 'Unauthorized', 401)
+    data = {'ownerId': claims['user_id']}
+
     return templates.api.GetVotes(data)
