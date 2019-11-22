@@ -43,7 +43,7 @@ const add = async newHint => {
     });
 }
 
-const update = (hintId, vote) => {
+const update = async (hintId, vote) => {
    const newUrl = baseUrl + '/' +  hintId;
    //vote is either 'funny', 'notfunny', 'helpful', 'nothelpful'
    const response = axios.put(newUrl,
@@ -53,14 +53,43 @@ const update = (hintId, vote) => {
      }
    ).then(response => {
      console.log("update hint", response.data);
+     return {
+       successful: true,
+       response: response.data
+     }
    }).catch(error =>{
-     console.error(error);
+      console.error(error);
+      return {
+        successful: false,
+        response: error
+      }
    });
+}
+
+const report = async hintId => {
+  const newUrl = '/api/report/' + hintId;
+  const response = axios.post(newUrl, {
+      headers: {Authorization: "Bearer " + token}
+    }
+  ).then(response => {
+    console.log("Reported Hint", response.data);
+    return {
+      successful: true,
+      response: response.data
+    }
+  }).catch(error =>{
+      console.error(error);
+      return {
+        successful: false,
+        response: error
+      }
+  });
 }
 
 export default {
    get,
    add,
    update,
+   report,
    updateToken,
 }
