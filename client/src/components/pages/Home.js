@@ -6,14 +6,9 @@ import Modal from '@material-ui/core/Modal'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import TextField from '@material-ui/core/TextField' // STYLES IMPORTED... LEAVE HERE
-import Autocomplete from '@material-ui/lab/Autocomplete' // STYLES IMPORTED... LEAVE HERE
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import IconButton from '@material-ui/core/IconButton'
-import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
-import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
 
 import CardSearchbar from '../input/CardSearchbar'
 import CategoryButtons from '../input/CategoryButtons'

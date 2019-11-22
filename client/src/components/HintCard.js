@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Grid from '@material-ui/core/Grid'
@@ -8,6 +8,8 @@ import IconButton from '@material-ui/core/IconButton'
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
 import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
+
+import hintService from '../services/hints'
 
 const useStyles = makeStyles(theme => ({
    gridItem: {
@@ -25,6 +27,71 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const HintCard = ({hint}) => {
+   const [votedOn, setVotedOn] = useState({funny: [], helpful: [], report: []})
+
+   useEffect(() => {
+
+      // get voted ons
+
+   }, [])
+
+   const handleFunnyClick = event => {
+      event.preventDefault()
+      if (votedOn.funny.find(id => id === hint.id)) {
+         hintService
+            .update(hint.id, 'notfunny')
+            .then(() => {
+               hint.funny -= 1
+               let arr = votedOn.funny
+               votedOn.funny.splice(votedOn.funny.indexOf(hint.id))
+               setVotedOn({...votedOn, funny: arr})
+            })
+      } else {
+         hintService
+            .update(hint.id, 'funny')
+            .then(() => {
+               hint.funny += 1
+               const arr = votedOn.funny.concat(hint.id)
+               setVotedOn({...votedOn, funny: arr})
+            })
+      }
+   }
+
+   const handleHelpfulClick = event => {
+      event.preventDefault()
+      if (votedOn.helpful.find(id => id === hint.id)) {
+         hintService
+            .update(hint.id, 'nothelpful')
+            .then(() => {
+               hint.helpful -= 1
+               let arr = votedOn.funny
+               votedOn.helpful.splice(votedOn.helpful.indexOf(hint.id))
+               setVotedOn({...votedOn, helpful: arr})
+            })
+      } else {
+         hintService
+            .update(hint.id, 'helpful')
+            .then(() => {
+               hint.helpful += 1
+               const arr = votedOn.helpful.concat(hint.id)
+               setVotedOn({...votedOn, helpful: arr})
+            })
+      }
+   }
+
+   const handleReportClick = event => {
+      event.preventDefault()
+      if (!votedOn.report.find(id => id === hint.id)) {
+         hintService
+            .report(hint.id)
+            .then(() => {
+               const arr = votedOn.report.concat(hint.id)
+               setVotedOn({...votedOn, report: arr})
+            })
+      } 
+   }
+
+
    const classes = useStyles()
 
    return (
@@ -49,18 +116,18 @@ const HintCard = ({hint}) => {
                   </Grid>
                   <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '0px', left: '-5px', marginRight: '0', borderTop: '1px black solid', width: '262px'}}>
                      <div style = {{display: 'inline', marginRight: '94px'}}>
-                        <IconButton>
-                           <InsertEmoticonIcon/>
+                        <IconButton onClick = {handleFunnyClick}>
+                           <InsertEmoticonIcon color = {votedOn.funny.find(id => id === hint.id) ? 'primary' : 'default'}/>
                         </IconButton>
                         <Typography variant = 'button' display = 'inline'>{hint.funny}</Typography>
-                        <IconButton>
-                           <ThumbUpAltOutlinedIcon/>
+                        <IconButton onClick = {handleHelpfulClick}>
+                           <ThumbUpAltOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id ? 'primary' : 'default')}/>
                         </IconButton>
                         <Typography variant = 'button' display = 'inline'>{hint.helpful}</Typography>
                      </div>
                      <div style = {{display: 'inline', marginLeft: '5px'}}>
-                        <IconButton>
-                           <ReportOutlinedIcon color = 'error'/>
+                        <IconButton onClick = {handleReportClick}>
+                           <ReportOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id) ? 'error' : 'default'}/>
                         </IconButton>
                      </div>
                   </Grid>
