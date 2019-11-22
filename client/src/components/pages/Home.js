@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
       margin: '0',
       padding: '0',
       minWidth: '100%',
+      maxHeight: '790px'
    },
    submitButton: {
       height: '50px'

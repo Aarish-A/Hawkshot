@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
    textArea: {
       margin: '0',
       padding: '0',
-      minWidth: '95%'
+      minWidth: '100%'
    }
 }))
 
