@@ -1,1 +1,1 @@
-web: npm run build-with-gunicorn --prefix client
+web: gunicorn app:run

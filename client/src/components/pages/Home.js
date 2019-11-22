@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField' // STYLES IMPORTED... LEAVE 
 import Autocomplete from '@material-ui/lab/Autocomplete' // STYLES IMPORTED... LEAVE HERE
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/paper'
+import Paper from '@material-ui/core/Paper'
 import IconButton from '@material-ui/core/IconButton'
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
@@ -88,6 +88,7 @@ const Home = ({firebase}) => {
          sortCat: category,
          sortBy: sort,
          type: type,
+
       }
       filterParams[filterParam] = filterParamArg
 

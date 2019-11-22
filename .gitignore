@@ -10,7 +10,7 @@ venv
 /coverage
 
 # production
-build/
+# build/
 *.pyc
 __pycache__/
 
