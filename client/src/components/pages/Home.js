@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
 const Home = ({firebase}) => {
    const [hints, setHints] = useState([])
    const [category, setCategory] = useState('all')
-   const [sort, setSort] = useState('popular') 
+   const [sort, setSort] = useState('popular')
    const [type, setType] = useState('hints')
    const [search, setSearch] = useState('')
    const [searchItem, setSearchItem] = useState('')
@@ -75,7 +75,7 @@ const Home = ({firebase}) => {
          .get()
          .then(initialHints => setHints(initialHints))
    }, [])
-   
+
    const classes = useStyles()
 
    const changedFilter = (filterParam, filterParamArg) => {
@@ -96,7 +96,7 @@ const Home = ({firebase}) => {
    const handleCategoryChange = (event, newCategory) => {setCategory(newCategory); changedFilter('sortCat', newCategory)}
    const handleSortChange = (event, newSort) => {setSort(newSort); changedFilter('sortBy', newSort)}
    const handleTypeChange = (event, newType) => {setType(newType); changedFilter('type', newType)}
-   const handleSearchbarChange = (event, newSearch) => {setSearch(newSearch); changedFilter(); console.log('bruh')}
+   const handleSearchbarChange = (event, newSearch) => {setSearch(newSearch); changedFilter();}
    const handleSearchItemChange = (event, newSearchItem) => {setSearchItem(newSearchItem); changedFilter('cardName', newSearchItem ? newSearchItem.name : '')}
    const handleOpenSubmission = () => setOpenSubmission(true)
    const handleCloseSubmission = () => setOpenSubmission(false)
@@ -143,7 +143,7 @@ const Home = ({firebase}) => {
                            Submit a Hint
                         </Typography>
                      </Button>
-                     
+
                   </Grid>
                </Grid>
             </Grid>
@@ -156,7 +156,7 @@ const Home = ({firebase}) => {
          <Grid container justify = 'center'>
             {getHintCards()}
          </Grid>
-      </Container>   
+      </Container>
    )
 }
 
