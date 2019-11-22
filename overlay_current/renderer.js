@@ -13,13 +13,3 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 const request = require('request');	
 const ipcRenderer = require('electron').ipcRenderer;
 
-
-
-ipcRenderer.on('updatecardID', (event, arg) => {
-
-                // Updates the display with data from the cardID
-                let currcard = document.getElementById("currcard");
-
-                currcard.innerHTML = arg.message;
-                
-            });

@@ -1,10 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, screen, ipcMain, ipcRenderer} = require('electron')
+const {app, BrowserWindow, screen, ipcMain} = require('electron')
 const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
 const request = require('request');	
-
+var sorttype = "/new/"
 
 
 
@@ -16,13 +16,13 @@ const request = require('request');
 
 let mainWindow
 let overlayWindow
-
-
-
+global.cardmessage = {
+  message: 'default value'
+}
 
 function createWindow () {
 
-let sorttype = "/new/" 
+ 
 let activehintid
 let display = screen.getPrimaryDisplay();
 let width = display.bounds.width;
@@ -77,6 +77,7 @@ let height = display.bounds.height;
 function addhelpful(event)
 
 {
+	
 	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"/helpfulVotes"));	
 }
 
@@ -93,7 +94,7 @@ function addfunny(event)
 function funnyhint(event)
 {
 	//displays a funny hint with current cardID and sort
-	document.getElementById("hint").textContent = "No funny hints available"
+	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID');
 	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
 		document.getElementById("hint").textContent = response.content;
@@ -107,7 +108,7 @@ function funnyhint(event)
 function helpfulhint(event)
 {
 	//displays a helpful with current cardID and sort
-	document.getElementById("hint").textContent = "No helpful hints available";
+	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID');
 	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
 		document.getElementById("hint").textContent = response.content;
@@ -146,12 +147,6 @@ function sortnew(event)
 }
 
 
-
-
-ipcMain.on('sendcardID', (event, arg) => {
-    //on receiving an ipc message from the overlayWindow, sends it to the display window 
-    mainWindow.webContents.send('updatecardID', arg);
-});
 
 
 
