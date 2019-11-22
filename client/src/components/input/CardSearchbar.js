@@ -11,6 +11,11 @@ const useStyles = makeStyles(theme => ({
       margin: '0',
       padding: '0',
       minWidth: '100%'
+   },
+   textArea: {
+      margin: '0',
+      padding: '0',
+      minWidth: '95%'
    }
 }))
 
@@ -49,7 +54,7 @@ const CardSearchbar = ({
          getOptionLabel = {card => card.name}
          groupBy = {card => card.region}
          renderInput = {params => (
-            <TextField {...params} className = {classes.searchbar} label = 'Search for a Card' variant = 'outlined'/>
+            <TextField {...params} className = {classes.textArea} label = 'Search for a Card' variant = 'outlined'/>
          )}
          noOptionsText = "We couldn't find what you were looking for"
          inputValue = {inputValue}

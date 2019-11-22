@@ -132,7 +132,7 @@ const Home = ({firebase}) => {
          <Grid container direction = 'column' justify = 'center'>
             <Grid item className = {classes.gridItem} style = {{height: '75px'}}>
                <Grid container spacing = {1} justify = 'center' alignItems = 'center'>
-                  <Grid item sm = {10} className = {classes.gridItem}>
+                  <Grid item sm = {9} className = {classes.gridItem}>
                      <CardSearchbar
                         className = {classes.searchbar}
                         inputValue = {search}
