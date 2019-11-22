@@ -10,3 +10,4 @@ The invisible window assumes the game window is close to the size of the screen
 Checking the current card id has some delay bc it triggers on mousemove
 Voting in client is not functional yet bc accounts and votes are dependent on firebase,
 which cannot be signed into via electron.
+Before clicking a hint, you have to use the dropdown to select a sort mode
