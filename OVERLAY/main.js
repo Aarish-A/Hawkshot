@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, screen, ipcMain} = require('electron')
+const {app, BrowserWindow, screen, ipcMain, ipcRenderer} = require('electron')
 const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
@@ -7,9 +7,10 @@ const request = require('request');
 
 
 
+
+
 //TODO (in order):
-//fix eventlistener bug (I have no idea why that isn't working, check display.html)
-//fix get request format if it isn't accurate
+//fix ipcrenderer
 //add auth for client voting if needed
 //add client voting post requests
 
@@ -31,6 +32,7 @@ let height = display.bounds.height;
     width: 300, 
     height: 500, 
 	frame:false,
+	alwaysOnTop: true,
 	x: width - 300,
 	y: height-500,                
     webPreferences: {
@@ -45,6 +47,9 @@ let height = display.bounds.height;
 	  alwaysOnTop: true,
 	  transparent : true,
 	  frame: false,
+	  webPreferences: {
+      preload: path.join(__dirname, 'preload.js') 	  
+		}
 	  
 		
 	  

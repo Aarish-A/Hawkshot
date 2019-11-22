@@ -11,7 +11,7 @@ const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
 const request = require('request');	
-const { ipcRenderer } = require('electron');
+const ipcRenderer = require('electron').ipcRenderer;
 
 
 

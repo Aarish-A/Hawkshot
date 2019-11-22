@@ -1,6 +1,11 @@
-const ipcRenderer = require('electron')
 var axios = require('axios');
-axios.defaults.adapter = require('axios/lib/adapters/http');	
+axios.defaults.adapter = require('axios/lib/adapters/http');
+const ipcRenderer = require('electron').ipcRenderer;
+
+
+
+	
+	
 
 
 function readhover(event) //gets the x and y positions of the mouse, then runs getcardcode with those positions
@@ -11,25 +16,28 @@ function readhover(event) //gets the x and y positions of the mouse, then runs g
 	var ypos = event.screenY;
 axios.get('http://localhost:21337/positional-rectangles').then((response) =>
 	{	
+
 	positionobject = response
 	document.getElementById("name").textContent = getcardcode(positionobject, xpos, ypos);
 	
 	
-	//uses ipcmessage to send the current card id to the display window through main.js
-//currently broken, following code from 
-//https://ourcodeworld.com/articles/read/536/how-to-send-information-from-one-window-to-another-in-electron-framework
-//but the eventlistener never triggers (no console.log)- aarish/bill please help
-	
-	let Data = {
+	var Data = {
                 message: document.title
 				};
 				console.log(Data.message);
 
                 // Trigger the event listener action to this event in the renderer process and send the data
-                ipcRenderer.send('sendcardID', Data);
+                
+	
+	
+//uses ipcmessage to send the current card id to the display window through main.js
+//currently broken, following code from 
+//https://ourcodeworld.com/articles/read/536/how-to-send-information-from-one-window-to-another-in-electron-framework
 	
 	
 	});
+	
+	ipcRenderer.send('sendcardID', Data);
 
 }
 
