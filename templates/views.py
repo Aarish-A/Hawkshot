@@ -37,7 +37,7 @@ def get_hint():
         'cardId': request.args.get('cardId', None),
         'cardName': request.args.get('cardName', None),
         'ownerId': request.args.get('ownerId', None),
-        'limit': request.args.get('limit', 18),
+        'limit': request.args.get('limit', 24),
         'hintId': request.args.get('hintId', None),
         'sortBy': request.args.get('sortBy', 'popular'),
         'sortCat': request.args.get('sortCat', 'all'),
