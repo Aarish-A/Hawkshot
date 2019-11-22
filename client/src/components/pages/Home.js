@@ -1,53 +1,38 @@
-/* React Dependencies */
 import React, { useState, useEffect } from 'react';
 import { withFirebase } from '../firebase';
 
-/* React-Bootstrap Dependencies */
-import {
-   //  Container,
-    Row,
-    Form,
-    FormControl,
-   //  Button,
-    ButtonGroup,
-    ButtonToolbar,
-} from 'react-bootstrap'
-
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import Modal from '@material-ui/core/Modal'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import Autocomplete from '@material-ui/lab/Autocomplete'
+import TextField from '@material-ui/core/TextField' // STYLES IMPORTED... LEAVE HERE
+import Autocomplete from '@material-ui/lab/Autocomplete' // STYLES IMPORTED... LEAVE HERE
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import ToggleButton from '@material-ui/lab/ToggleButton'
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import Paper from '@material-ui/core/paper'
 import IconButton from '@material-ui/core/IconButton'
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
 import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
 
-/* Components */
-import HintBlock from '../HintBlock'
-import HintForm from '../HintForm'
+import CardSearchbar from '../input/CardSearchbar'
+import CategoryButtons from '../input/CategoryButtons'
+import SortButtons from '../input/SortButtons'
+import TypeButtons from '../input/TypeButtons'
+import HintSubmissionForm from '../forms/HintSubmissionForm';
+import HintCard from '../HintCard'
 
-/* Services */
 import hintService from '../../services/hints'
-
-import cards from '../../assets/data_dragon/en_us/data/set1-en_us'
 
 const useStyles = makeStyles(theme => ({
    root: {
       flexGrow: 1,
-      // border: '0.1em black solid',
       minWidth: '100%',
       padding: '0',
       margin: '0 0 0 0'
    },
    gridItem: {
       margin: '0.5em 0.5em',
-      // border: '0.1em black solid',
       textAlign: 'center',
       overflowWrap: 'hyphens'
    },
@@ -58,6 +43,14 @@ const useStyles = makeStyles(theme => ({
    },
    submitButton: {
       height: '50px'
+   },
+   submissionModal: {
+      height: '85%',
+      width: '85%',
+      margin: 'auto',
+   },
+   submissionModalPaper: {
+      padding: '3em'
    },
    buttonGroup: {
       margin: '0 1.5em',
@@ -72,12 +65,14 @@ const useStyles = makeStyles(theme => ({
    }
 }))
 
-// TODO: REFACTOR INTO COMPONENTS WITH FORWARD REFERENCES 
 const Home = ({firebase}) => {
    const [hints, setHints] = useState([])
    const [category, setCategory] = useState('all')
    const [sort, setSort] = useState('popular') 
    const [type, setType] = useState('hints')
+   const [search, setSearch] = useState('')
+   const [searchItem, setSearchItem] = useState('')
+   const [openSubmission, setOpenSubmission] = useState(false)
 
    useEffect(() => {
       hintService
@@ -87,74 +82,33 @@ const Home = ({firebase}) => {
    
    const classes = useStyles()
 
-   const ioniaCards = cards.filter(card => card.region === 'Ionia')
-   const demaciaCards = cards.filter(card => card.region === 'Demacia')
-   const shadowIslesCards = cards.filter(card => card.region === 'Shadow Isles')
-   const noxusCards = cards.filter(card => card.region === 'Noxus')
-   const piltoverAndZaunCards = cards.filter(card => card.region === 'Piltover & Zaun')
-   const freljordCards = cards.filter(card => card.region === 'Freljord')
-   const allCardsByRegion = 
-      ioniaCards
-         .concat(demaciaCards).concat(shadowIslesCards)
-         .concat(noxusCards).concat(freljordCards)
-         .concat(piltoverAndZaunCards)
-
-   const cardOptions = allCardsByRegion.map(card => {
-      return {
-         name: card.name, 
-         region: card.region
+   const changedFilter = (filterParam, filterParamArg) => {
+      let filterParams = {
+         cardName: searchItem ? searchItem.name : '',
+         sortCat: category,
+         sortBy: sort,
+         type: type,
       }
-   })
+      filterParams[filterParam] = filterParamArg
 
-   const handleCategoryChange = (event, newCategory) => setCategory(newCategory)
-   const handleSortChange = (event, newSort) => setSort(newSort)
-   const handleTypeChange = (event, newType) => setType(newType)
+      hintService
+         .get(filterParams)
+         .then(hints => setHints(hints))
+   }
+
+   const handleCategoryChange = (event, newCategory) => {setCategory(newCategory); changedFilter('sortCat', newCategory)}
+   const handleSortChange = (event, newSort) => {setSort(newSort); changedFilter('sortBy', newSort)}
+   const handleTypeChange = (event, newType) => {setType(newType); changedFilter('type', newType)}
+   const handleSearchbarChange = (event, newSearch) => {setSearch(newSearch); changedFilter(); console.log('bruh')}
+   const handleSearchItemChange = (event, newSearchItem) => {setSearchItem(newSearchItem); changedFilter('cardName', newSearchItem ? newSearchItem.name : '')}
+   const handleOpenSubmission = () => setOpenSubmission(true)
+   const handleCloseSubmission = () => setOpenSubmission(false)
 
    const getHintCards = () => {
       return hints.map(hint => {
          return (
             <Grid item key = {hint.id} className = {classes.gridItem}>
-               <Paper className = {classes.paper}>
-                  <Grid container justify = 'flex-start'>
-                     <Grid item className = {classes.gridItem} style = {{marginTop: '0'}}>
-                           <img 
-                              src = {require(`../../assets/data_dragon/en_us/img/cards/${hint.cardId}.png`)}
-                              alt = 'cannot load'
-                              className = {classes.cardImage}
-                           />
-                     </Grid>
-                     <Grid item sm = {7} className = {classes.gridItem} style = {{marginLeft: '0', marginRight: '0', position: 'relative'}}>
-                        <Grid container direction = 'column' justify = 'space-between' alignItems = 'flex-start'>
-                           <Grid item className = {classes.gridItem} style = {{textAlign: 'left', margin: '0'}}>
-                              <Typography variant = 'body1' style = {{width: '265px', overflowWrap: 'break-word'}}>
-                                 {hint.content}
-                              </Typography>
-                           </Grid>
-                           <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '52px', left: '-2px'}}>
-                              <Typography variant = 'body2'> - {hint.ownerName}</Typography>
-                           </Grid>
-                           <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '0px', left: '-5px', marginRight: '0', borderTop: '1px black solid', width: '262px'}}>
-                              <div style = {{display: 'inline', marginRight: '94px'}}>
-                                 <IconButton>
-                                    <InsertEmoticonIcon/>
-                                 </IconButton>
-                                 <Typography variant = 'button' display = 'inline'>{hint.funny}</Typography>
-                                 <IconButton>
-                                    <ThumbUpAltOutlinedIcon/>
-                                 </IconButton>
-                                 <Typography variant = 'button' display = 'inline'>{hint.helpful}</Typography>
-                              </div>
-                              <div style = {{display: 'inline'}}>
-                                 <IconButton>
-                                    <ReportOutlinedIcon color = 'secondary'/>
-                                 </IconButton>
-                              </div>
-                           </Grid>
-                        </Grid>
-
-                     </Grid>
-                  </Grid>
-               </Paper>
+               <HintCard hint = {hint}/>
             </Grid>
          )
       })
@@ -162,191 +116,51 @@ const Home = ({firebase}) => {
 
    return (
       <Container component = 'div' className = {classes.root} spacing = {0}>
+         <Modal
+            open = {openSubmission}
+            onClose = {handleCloseSubmission}
+            onEscapeKeyDown = {handleCloseSubmission}
+            onBackdropClick = {handleCloseSubmission}
+            className = {classes.submissionModal}
+         >
+            <Paper className = {classes.submissionModalPaper}>
+               <HintSubmissionForm handleCloseSubmission = {handleCloseSubmission}/>
+            </Paper>
+         </Modal>
+
          <Grid container direction = 'column' justify = 'center'>
             <Grid item className = {classes.gridItem} style = {{height: '75px'}}>
                <Grid container spacing = {1} justify = 'center' alignItems = 'center'>
                   <Grid item sm = {9} className = {classes.gridItem}>
-                     <Autocomplete
+                     <CardSearchbar
                         className = {classes.searchbar}
-                        options = {cardOptions}
-                        getOptionLabel = {card => card.name}
-                        groupBy = {card => card.region}
-                        renderInput = {params => (
-                           <TextField {...params} className = {classes.searchbar} label = 'Search for a Card' variant = 'outlined'/>
-                        )}
+                        inputValue = {search}
+                        onInputChange = {handleSearchbarChange}
+                        input = {searchItem}
+                        onChange = {handleSearchItemChange}
                      />
                   </Grid>
                   <Grid item className = {classes.gridItem}>
-                     <Button variant = 'contained' color = 'secondary' className = {classes.submitButton}>
+                     <Button onClick = {handleOpenSubmission} variant = 'contained' color = 'secondary' className = {classes.submitButton}>
                         <Typography variant = 'button'>
                            Submit a Hint
                         </Typography>
                      </Button>
+                     
                   </Grid>
                </Grid>
             </Grid>
             <Grid item className = {classes.gridItem}>
-               <ToggleButtonGroup className = {classes.buttonGroup} exclusive value = {category} onChange = {handleCategoryChange} size = 'large'>
-                  <ToggleButton value = 'all'>
-                     <Typography variant = 'button'>All</Typography>
-                  </ToggleButton>
-                  <ToggleButton value = 'funny'>
-                     <Typography variant = 'button'>Funny</Typography>
-                  </ToggleButton>
-                  <ToggleButton value = 'helpful'>
-                     <Typography variant = 'button'>Helpful</Typography>
-                  </ToggleButton>
-               </ToggleButtonGroup>
-
-               <ToggleButtonGroup className = {classes.buttonGroup} exclusive value = {sort} onChange = {handleSortChange} size = 'large'>
-                  <ToggleButton value = 'popular'>
-                     <Typography variant = 'button'>Popular</Typography>
-                  </ToggleButton>
-                  <ToggleButton value = 'recent'>
-                     <Typography variant = 'button'>Recent</Typography>
-                  </ToggleButton>
-                  <ToggleButton value = 'trending'>
-                     <Typography variant = 'button'>Trending</Typography>
-                  </ToggleButton>
-               </ToggleButtonGroup>
-
-               <ToggleButtonGroup className = {classes.buttonGroup} exclusive value = {type} onChange = {handleTypeChange} size = 'large'>
-                  <ToggleButton value = 'hints'>
-                     <Typography variant = 'button'>Hints</Typography>
-                  </ToggleButton>
-                  <ToggleButton value = 'cards'>
-                     <Typography variant = 'button'>Cards</Typography>
-                  </ToggleButton>
-               </ToggleButtonGroup>
+               <CategoryButtons category = {category} handleCategoryChange = {handleCategoryChange}/>
+               <SortButtons sort = {sort} handleSortChange = {handleSortChange}/>
+               <TypeButtons type = {type} handleTypeChange = {handleTypeChange}/>
             </Grid>
          </Grid>
          <Grid container justify = 'center'>
-               {getHintCards()}
+            {getHintCards()}
          </Grid>
       </Container>   
    )
 }
-
-/*
-const Home = withFirebase(props => {
-   const [sort, setSort] = useState({
-      category: 'all',
-      order: 'popular',
-      type: 'hint',
-   })
-
-   const [hintParams, setHintParams] = useState({
-      cardId: '',
-      ownerId: '',
-      limit: 2,
-      hintId: '',
-      sortBy: ''
-   })
-
-   const [hints, setHints] = useState([])
-
-   useEffect(() => {
-      hintService
-         .get(hintParams)
-         .then(initialHints => setHints(initialHints))
-   }, [])
-
-   const changeSort = newSort => () => {
-      const newHintParams = {
-         ...hintParams,
-         sortBy: newSort.category === 'all' ? '' : 'd_' + newSort.category
-      }
-
-      setSort({
-         ...sort,
-         ...newSort
-      })
-      setHintParams(newHintParams)
-
-      hintService
-         .get(newHintParams)
-         .then(hints => setHints(hints))
-         .then(console.log('Set new hints!'))
-   }
-
-   const uploadHint = event => {
-      event.preventDefault()
-
-      const newHint = {
-
-      }
-
-      hintService.add(newHint)
-   }
-
-   return(
-      <>
-         <div>
-            <Form inline>
-               <FormControl type = 'text' placeholder = 'Search' className = 'mr-sm-2' style = {{width: '80%', marginLeft: '10px'}}/>
-               <h5 style = {{width: '5%'}}>OR</h5>
-               <HintForm style = {{width: '10%'}}/>
-               {/* <Button style = {{width: '10%'}}>Submit a Hint</Button> *//*
-            </Form>
-         </div>
-         <div>
-            <Container fluid>
-               <Row>
-                  <h3>Sort by:</h3>
-                  <ButtonToolbar>
-                     <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({category : 'all'})}>
-                           All
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({category : 'funny'})}>
-                           Funny
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({category : 'helpful'})}>
-                           Helpful
-                        </Button>
-                     </ButtonGroup>
-                     <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({order : 'popular'})}>
-                           Popular
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({order : 'recent'})}>
-                           Recent
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({order : 'trending'})}>
-                           Trending
-                        </Button>
-                     </ButtonGroup>
-                     <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({type : 'hints'})}>
-                           All Hints
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({type: 'cards'})}>
-                           All Cards
-                        </Button>
-                     </ButtonGroup>
-                  </ButtonToolbar>
-               </Row>
-            </Container>
-         </div>
-         <div>
-            <Container fluid>
-               <Row>
-                  {
-                     hints.map(hint =>
-                        <div key = {hint.id} style = {{width: '50%'}}>
-                           <HintBlock
-                              key = {hint.id}
-                              hint = {hint}
-                           />
-                        </div>
-                     )
-                  }
-               </Row>
-            </Container>
-         </div>
-      </>
-    )
-})
-*/
 
 export default withFirebase(Home)
