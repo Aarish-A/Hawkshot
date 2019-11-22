@@ -8,8 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import Fab from '@material-ui/core/Fab'
 
-import CardSearchbar from '../input/CardSearchbar'
-
 import hintService from '../../services/hints'
 
 const useStyles = makeStyles(theme => ({
@@ -23,25 +21,14 @@ const useStyles = makeStyles(theme => ({
    submitButton: {
       margin: '1.2em auto',
       width: '20%'
-   },
-   searchbar: {
-      margin: 'auto'
-   },
-   cardImage: {
-      height: '20%'
    }
 }))
 
-const HintSubmissionForm = ({handleCloseSubmission}) => {
-   const [search, setSearch] = useState('')
-   const [selectedCard, setSelectedCard] = useState(null)
+const ReportForm = ({handleCloseSubmission, hint}) => {
    const [content, setContent] = useState('')
    const [formError, setFormError] = useState(null)
    const [showForm, setShowForm] = useState(true)
    const classes = useStyles()
-
-   const handleSearchbarChange = (event, newSearch) => setSearch(newSearch)
-   const handleSelectedCardChange = (event, newSelectedCard) => setSelectedCard(newSelectedCard)
 
    const onContentChange = event => {
       event.preventDefault()
@@ -51,13 +38,8 @@ const HintSubmissionForm = ({handleCloseSubmission}) => {
    const onFormSubmit = event => {
       event.preventDefault()
       hintService
-         .add({
-            content: content,
-            cardId: selectedCard.cardCode
-         })
+         .report(content, hint.hintId)
          .then(response => {
-            setSearch('')
-            setSelectedCard(null)
             setContent('')
             setFormError(null)
             setShowForm(false)
@@ -69,23 +51,16 @@ const HintSubmissionForm = ({handleCloseSubmission}) => {
          })
    };
 
-   const invalidForm = !selectedCard || !content  
+   const invalidForm = !content  
    const errorMessage = formError ? formError.message : ''
 
    return (
       showForm ? 
 
       <Grid container direction = 'column'>
-         <CardSearchbar
-            className = {classes.searchbar}
-            inputValue = {search}
-            onInputChange = {handleSearchbarChange}
-            value = {selectedCard}
-            onChange = {handleSelectedCardChange}
-         />
          <TextField
             id = "outlined-full-width"
-            label = "Tell us your hint!"
+            label = "Tell us the reason for this report"
             placeholder = ""
             helperText=""
             fullWidth
@@ -97,10 +72,10 @@ const HintSubmissionForm = ({handleCloseSubmission}) => {
             rows = {5}
             variant = 'fill'
             error = {formError}
-            helperText = {!errorMessage ? 'Please be respectful! Keep in mind we automatically censor obscene language.' : errorMessage}
+            helperText = {!errorMessage ? 'Safety is important to us! We will try our best to filter hints reported with enough valid reasons' : errorMessage}
             className = {classes.formItem}
             variant="outlined"
-            type = 'password'
+            type = 'text'
             value = {content}
             onChange = {onContentChange}
          />
@@ -112,16 +87,16 @@ const HintSubmissionForm = ({handleCloseSubmission}) => {
             disabled = {invalidForm}
             onClick = {onFormSubmit}
          >
-            <Typography variant = 'button'>Submit Hint</Typography>
+            <Typography variant = 'button'>Submit Report</Typography>
          </Fab>
       </Grid>
 
       :
 
       <Typography variant = 'h5' align = 'center'>
-         Successfully submitted hint!
+         Successfully submitted report!
       </Typography>
    )
 }
 
-export default HintSubmissionForm
+export default ReportForm

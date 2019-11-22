@@ -9,6 +9,9 @@ import IconButton from '@material-ui/core/IconButton'
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
 import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
+import Modal from '@material-ui/core/Modal'
+
+import ReportForm from './forms/ReportForm'
 
 import hintService from '../services/hints'
 
@@ -24,12 +27,21 @@ const useStyles = makeStyles(theme => ({
    },
    cardImage: {
       height: '250px'
-   }
+   },   
+   submissionModal: {
+      height: '85%',
+      width: '85%',
+      margin: 'auto',
+   },
+   submissionModalPaper: {
+      padding: '3em'
+   },
 }))
 
 const HintCard = withFirebase(({hint, firebase}) => {
    const [votedOn, setVotedOn] = useState({funny: [], helpful: [], report: []})
    const [userAuth, setUserAuth] = useState(null)
+   const [openSubmission, setOpenSubmission] = useState(false)
    const classes = useStyles()
 
    useEffect(() => {
@@ -41,6 +53,9 @@ const HintCard = withFirebase(({hint, firebase}) => {
             .then(votes => setVotedOn(votes ? votes : {funny: [], helpful: [], report: []}))
       })   
    }, [])
+
+   const handleOpenSubmission = () => setOpenSubmission(true)
+   const handleCloseSubmission = () => setOpenSubmission(false)
 
    const handleFunnyClick = event => {
       event.preventDefault()
@@ -99,46 +114,59 @@ const HintCard = withFirebase(({hint, firebase}) => {
    }
 
    return (
-      <Paper className = {classes.paper}>
-         <Grid container justify = 'flex-start'>
-            <Grid item className = {classes.gridItem} style = {{marginTop: '0'}}>
-                  <img 
-                     src = {`https://lor.mln.cx/Set1/en_us/img/cards/${hint.cardId}.png`}
-                     alt = 'cannot load'
-                     className = {classes.cardImage}
-                  />
-            </Grid>
-            <Grid item sm = {7} className = {classes.gridItem} style = {{marginLeft: '0', marginRight: '0', position: 'relative'}}>
-               <Grid container direction = 'column' justify = 'space-between' alignItems = 'flex-start'>
-                  <Grid item className = {classes.gridItem} style = {{textAlign: 'left', margin: '0'}}>
-                     <Typography variant = 'body1' style = {{width: '265px', overflowWrap: 'break-word'}}>
-                        {hint.content}
-                     </Typography>
-                  </Grid>
-                  <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '52px', left: '-2px'}}>
-                     <Typography variant = 'body2'> - {hint.ownerName}</Typography>
-                  </Grid>
-                  <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '0px', left: '-5px', marginRight: '0', borderTop: '1px black solid', width: '262px'}}>
-                     <div style = {{display: 'inline', marginRight: '94px'}}>
-                        <IconButton onClick = {handleFunnyClick}>
-                           <InsertEmoticonIcon color = {votedOn.funny.find(id => id === hint.id) ? 'primary' : 'action'}/>
-                        </IconButton>
-                        <Typography variant = 'button' display = 'inline'>{hint.funny}</Typography>
-                        <IconButton onClick = {handleHelpfulClick}>
-                           <ThumbUpAltOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id) ? 'primary' : 'action'}/>
-                        </IconButton>
-                        <Typography variant = 'button' display = 'inline'>{hint.helpful}</Typography>
-                     </div>
-                     <div style = {{display: 'inline', marginLeft: '5px'}}>
-                        <IconButton onClick = {handleReportClick}>
-                           <ReportOutlinedIcon color = {votedOn.report.find(id => id === hint.id) ? 'error' : 'action'}/>
-                        </IconButton>
-                     </div>
+      <>
+         <Modal
+            open = {openSubmission}
+            onClose = {handleCloseSubmission}
+            onEscapeKeyDown = {handleCloseSubmission}
+            onBackdropClick = {handleCloseSubmission}
+            className = {classes.submissionModal}
+         >
+            <Paper className = {classes.submissionModalPaper}>
+               <ReportForm hint = {hint} handleCloseSubmission = {handleCloseSubmission}/>
+            </Paper>
+         </Modal>
+         <Paper className = {classes.paper}>
+            <Grid container justify = 'flex-start'>
+               <Grid item className = {classes.gridItem} style = {{marginTop: '0'}}>
+                     <img 
+                        src = {`https://lor.mln.cx/Set1/en_us/img/cards/${hint.cardId}.png`}
+                        alt = 'cannot load'
+                        className = {classes.cardImage}
+                     />
+               </Grid>
+               <Grid item sm = {7} className = {classes.gridItem} style = {{marginLeft: '0', marginRight: '0', position: 'relative'}}>
+                  <Grid container direction = 'column' justify = 'space-between' alignItems = 'flex-start'>
+                     <Grid item className = {classes.gridItem} style = {{textAlign: 'left', margin: '0'}}>
+                        <Typography variant = 'body1' style = {{width: '265px', overflowWrap: 'break-word'}}>
+                           {hint.content}
+                        </Typography>
+                     </Grid>
+                     <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '52px', left: '-2px'}}>
+                        <Typography variant = 'body2'> - {hint.ownerName}</Typography>
+                     </Grid>
+                     <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '0px', left: '-5px', marginRight: '0', borderTop: '1px black solid', width: '262px'}}>
+                        <div style = {{display: 'inline', marginRight: '85px'}}>
+                           <IconButton onClick = {handleFunnyClick}>
+                              <InsertEmoticonIcon color = {votedOn.funny.find(id => id === hint.id) ? 'primary' : 'action'}/>
+                           </IconButton>
+                           <Typography variant = 'button' display = 'inline'>{hint.funny}</Typography>
+                           <IconButton onClick = {handleHelpfulClick}>
+                              <ThumbUpAltOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id) ? 'primary' : 'action'}/>
+                           </IconButton>
+                           <Typography variant = 'button' display = 'inline'>{hint.helpful}</Typography>
+                        </div>
+                        <div style = {{display: 'inline', marginLeft: '-5px'}}>
+                           <IconButton onClick = {handleOpenSubmission}>
+                              <ReportOutlinedIcon color = 'error'/>
+                           </IconButton>
+                        </div>
+                     </Grid>
                   </Grid>
                </Grid>
             </Grid>
-         </Grid>
-      </Paper>
+         </Paper>
+      </>
    )
 })
 
