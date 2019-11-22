@@ -3,7 +3,6 @@ const {app, BrowserWindow, screen, ipcMain} = require('electron')
 const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
-const request = require('request');	
 var sorttype = "new"
 
 

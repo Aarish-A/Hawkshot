@@ -1,26 +1,20 @@
 {
-  "name": "electron-quick-start",
+  "name": "Hawkshot",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Riot games legends of runeterra contest entry",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
+  "repository": "https://github.com/aarish-a/hawkshot",
+  "keywords": [],
+  "author": "",
   "license": "CC0-1.0",
   "devDependencies": {
-	"axios": "^0.19.0",
-    "electron": "^7.1.1"
+    "electron": "^7.1.2"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "node.js": "0.0.0"
   }
 }
