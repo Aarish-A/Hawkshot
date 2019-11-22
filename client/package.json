@@ -24,7 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-with-server": "npm run build && cd .. && python run.py",
-    "build-with-gunicorn": "npm run build && cd .. && gunicorn run:app --bind 0.0.0.0:$PORT",
+    "build-with-gunicorn": "npm run build && cd .. && gunicorn run:app --bind 127.0.0.1:$PORT",
     "bws": "npm run build && cd .. && python run.py",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
