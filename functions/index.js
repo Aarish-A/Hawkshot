@@ -92,9 +92,7 @@ exports.addHintCount = functions.firestore
         return transaction.get(reportCountRef).then(reportCount => {
           const newReportCount = reportCount.exists? reportCount.data().reports + 1 : 1;
           if(newReportCount < REPORT_THRESHOLD){
-            return transaction.set(reportCountRef, {
-              reports: newReportCount
-            });
+            return 0;
           }else{
             const hintRef = db.collection('hints').doc(hintId);
             return transaction.update(hintRef, {

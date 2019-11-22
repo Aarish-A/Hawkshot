@@ -99,3 +99,12 @@ def get_card():
         'sortCat': request.args.get('sortCat', 'all'),
     }
     return templates.api.GetCard(data)
+
+# Route for getting reports
+# No auth token required, anybody can access
+@app.route('/api/votes', methods=['GET'])
+def get_vote():
+    data = {
+        'ownerId': request.args.get('ownerId', None)
+    }
+    return templates.api.GetVotes(data)

@@ -7,6 +7,9 @@ from profanity_check import predict
 from pathlib import Path
 import os
 
+# limit to max 50 hints/cards per page
+QUERY_MAX = 50
+
 # initialize firestore
 cert_json = Path("hawkshot-e7e56-firebase-adminsdk-1zawp-35a7f1dc88.json")
 if cert_json.is_file():
@@ -66,7 +69,7 @@ def PostHint(data):
 def GetHint(data):
     ref = db.collection(u'hints')
     query = ref
-    query = query.limit(int(data['limit']))
+    query = query.limit(min(int(data['limit']), QUERY_MAX))
 
     print('sort params: ', data)
 
@@ -152,15 +155,35 @@ def UpdateHint(hintId, userId, type):
 # POST /api/report/<hintId>
 def ReportHint(data):
     ref = db.collection(u'reports').document()
-    # update Firestore
-    ref.set({
-        u'hintId': data['hintId'],
-        u'content': data['content'],
-        u'ownerId': data['ownerId'],
-        u'ownerName': data['ownerName'],
-        u'id': ref.id,
-        u'timestamp': int(time.time()),
-    })
+    report_ref = db.collection(u'reportCounts').document(data['hintId'])
+
+    if report_ref.get().exists and data['ownerId'] in report_ref.get().to_dict():
+        return Response('Hint already reported by this user', 401)
+    else:
+        # update Firestore
+        ref.set({
+            u'hintId': data['hintId'],
+            u'content': data['content'],
+            u'ownerId': data['ownerId'],
+            u'ownerName': data['ownerName'],
+            u'id': ref.id,
+            u'timestamp': int(time.time()),
+        })
+
+        # if report_ref.get().to_dict():
+        #     report_ref.update({
+        #         'reports': report_ref.get().to_dict()['reports'] + 1,
+        #         data['ownerId']: True,
+        #     })
+        # else:
+        #     report_ref.set({
+        #         reports: 1,
+        #         data['ownerId']: True,
+        #     })
+        report_ref.set({
+            'reports': report_ref.get().to_dict()['reports'] + 1 if report_ref.get().exists else 0,
+            data['ownerId']: True,
+        }, merge=True)
 
     return Response('Hint successfully reported', 200)
 
@@ -180,7 +203,7 @@ def DeleteHint(hintId, userId):
 def GetCard(data):
     ref = db.collection(u'cards')
     query = ref
-    query = query.limit(int(data['limit']))
+    query = query.limit(min(int(data['limit']), QUERY_MAX))
 
     if data['cardId']:
         # search by card id
@@ -203,4 +226,33 @@ def GetCard(data):
     result = {'cards':[]}
     for doc in docs:
         result['cards'].append(doc.to_dict())
+    return result
+
+# GET /api/votes
+def GetVotes(data):
+    funny_ref = db.collection(u'funnyVotes')
+    funny_query = funny_ref
+    funny_query = funny_query.where(data['ownerId'], u'==', True)
+
+    helpful_ref = db.collection(u'helpfulVotes')
+    helpful_query = helpful_ref
+    helpful_query = helpful_query.where(data['ownerId'], u'==', True)
+
+    report_ref = db.collection(u'reportCounts')
+    report_query = report_ref
+    report_query = report_query.where(data['ownerId'], u'==', True)
+
+    result = {'votedHelpful':[],'votedFunny':[], 'reported':[]}
+
+    funny_docs = funny_query.stream()
+    helpful_docs = helpful_query.stream()
+    report_docs = report_query.stream()
+
+    for doc in funny_docs:
+        result['votedFunny'].append(doc.id)
+    for doc in helpful_docs:
+        result['votedHelpful'].append(doc.id)
+    for doc in report_docs:
+        result['reported'].append(doc.id)
+
     return result
