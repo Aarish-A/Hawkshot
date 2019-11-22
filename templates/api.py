@@ -230,29 +230,31 @@ def GetCard(data):
 
 # GET /api/votes
 def GetVotes(data):
-    funny_ref = db.collection(u'funnyVotes')
-    funny_query = funny_ref
-    funny_query = funny_query.where(data['ownerId'], u'==', True)
-
-    helpful_ref = db.collection(u'helpfulVotes')
-    helpful_query = helpful_ref
-    helpful_query = helpful_query.where(data['ownerId'], u'==', True)
-
-    report_ref = db.collection(u'reportCounts')
-    report_query = report_ref
-    report_query = report_query.where(data['ownerId'], u'==', True)
 
     result = {'votedHelpful':[],'votedFunny':[], 'reported':[]}
 
-    funny_docs = funny_query.stream()
-    helpful_docs = helpful_query.stream()
-    report_docs = report_query.stream()
+    if data['ownerId']:
+        funny_ref = db.collection(u'funnyVotes')
+        funny_query = funny_ref
+        funny_query = funny_query.where(data['ownerId'], u'==', True)
 
-    for doc in funny_docs:
-        result['votedFunny'].append(doc.id)
-    for doc in helpful_docs:
-        result['votedHelpful'].append(doc.id)
-    for doc in report_docs:
-        result['reported'].append(doc.id)
+        helpful_ref = db.collection(u'helpfulVotes')
+        helpful_query = helpful_ref
+        helpful_query = helpful_query.where(data['ownerId'], u'==', True)
+
+        report_ref = db.collection(u'reportCounts')
+        report_query = report_ref
+        report_query = report_query.where(data['ownerId'], u'==', True)
+
+        funny_docs = funny_query.stream()
+        helpful_docs = helpful_query.stream()
+        report_docs = report_query.stream()
+
+        for doc in funny_docs:
+            result['votedFunny'].append(doc.id)
+        for doc in helpful_docs:
+            result['votedHelpful'].append(doc.id)
+        for doc in report_docs:
+            result['reported'].append(doc.id)
 
     return result
