@@ -231,7 +231,7 @@ def GetCard(data):
 # GET /api/votes
 def GetVotes(data):
 
-    result = {'votedHelpful':[],'votedFunny':[], 'reported':[]}
+    result = {'helpful':[],'funny':[], 'report':[]}
 
     if data['ownerId']:
         funny_ref = db.collection(u'funnyVotes')
@@ -251,10 +251,10 @@ def GetVotes(data):
         report_docs = report_query.stream()
 
         for doc in funny_docs:
-            result['votedFunny'].append(doc.id)
+            result['funny'].append(doc.id)
         for doc in helpful_docs:
-            result['votedHelpful'].append(doc.id)
+            result['helpful'].append(doc.id)
         for doc in report_docs:
-            result['reported'].append(doc.id)
+            result['report'].append(doc.id)
 
     return result
