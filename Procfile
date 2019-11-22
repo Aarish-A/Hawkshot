@@ -1,1 +1,1 @@
-web: cd client && npm run build-with-gunicorn
+web: npm run build-with-gunicorn --prefix client

@@ -1,4 +1,7 @@
 {
   "name": "hawkshot",
   "version": "1.0.0"
+  "scripts": {
+    "postinstall": "npm install --prefix client"
+  }
 }
