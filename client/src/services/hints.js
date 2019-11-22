@@ -51,8 +51,8 @@ const add = async newHint => {
 const update = async (hintId, vote) => {
    const newUrl = baseUrl + '/' +  hintId;
    //vote is either 'funny', 'notfunny', 'helpful', 'nothelpful'
-  console.log("hintId ", vote);
-   const response = axios.put(newUrl,
+
+   const response = axios.put(newUrl, {},
      {
        params: {type: vote},
        headers: {
