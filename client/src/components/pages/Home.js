@@ -5,7 +5,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import Modal from '@material-ui/core/Modal'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField' // STYLES IMPORTED... LEAVE HERE
+// import TextField from '@material-ui/core/TextField' // STYLES IMPORTED... LEAVE HERE
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
       maxHeight: '790px'
    },
    submitButton: {
-      height: '50px'
+      height: '60px'
    },
    submissionModal: {
       height: '85%',

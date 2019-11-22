@@ -51,11 +51,16 @@ const CardSearchbar = ({
    return (
       <Autocomplete
          className = {classes.searchbar}
+         disableClearable
+         disableListWrap
+         popupIcon = {<></>}
          options = {cardOptions}
          getOptionLabel = {card => card.leveledUp ? card.name + ' [Levelled Up]' : card.name}
          groupBy = {card => card.region}
          renderInput = {params => (
-            <TextField {...params} className = {classes.textArea} label = 'Search for a Card' variant = 'outlined'/>
+            <TextField {...params} 
+            className = {classes.textArea} 
+            style = {{padding: '0', alignText: 'center'}} label = 'Search for a Card' variant = 'outlined'/>
          )}
          noOptionsText = "We couldn't find what you were looking for"
          inputValue = {inputValue}
