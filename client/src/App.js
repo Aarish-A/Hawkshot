@@ -8,7 +8,7 @@ import {
 
 import Home from './components/pages/Home'
 import LoginPage from './components/pages/Login'
-import SignupPage from './components/pages/Signup'
+import SignupPage from './components/pages/SignUp'
 import NavigationBar from './components/NavigationBar.js'
 
 import hintService from './services/hints'

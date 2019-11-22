@@ -78,9 +78,10 @@ const HintSubmissionForm = ({handleCloseSubmission}) => {
       <Grid container direction = 'column'>
          <CardSearchbar
             className = {classes.searchbar}
-            search = {search}
-            handleSearchbarChange = {handleSearchbarChange}
-            handleSearchItemChange = {handleSelectedCardChange}
+            inputValue = {search}
+            onInputChange = {handleSearchbarChange}
+            value = {selectedCard}
+            onChange = {handleSelectedCardChange}
          />
          <TextField
             id = "outlined-full-width"
