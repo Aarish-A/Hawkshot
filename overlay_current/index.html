@@ -21,10 +21,10 @@
 </div> 
 
 
-  <h1 class=>Welcome to Hawkshot</h1>
+  <h2>Welcome to Hawkshot</h2>
 	
 	<p id="hint">Hover over a card to display its hints</p>
-	<p id="currcard"> Current card ID</p>
+	<p id="currcard" class="cardid"> Current card ID</p>
 	
    
 	<!-- menu buttons -->
@@ -33,6 +33,8 @@
 	 <button class="btn btn-primary" onclick="addfunny(event);">Vote Funny</button> 
 	 <button class="btn btn-primary" onclick="addhelpful(event);">Vote Helpful</button> 
  
+	 <p id="funnyvotes">Funny Votes:</p>
+	 <p id="helpfulvotes">Helpful Votes:</p>
 	 
     <!-- required js files -->
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>

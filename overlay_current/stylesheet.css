@@ -10,7 +10,7 @@
 
 	  }
 	  
-	h1,
+	h2,
 	p
 	{
 		text-align: center;
@@ -47,6 +47,12 @@
   position: relative;
   bottom: 0px;
   display: inline-block;
+}
+
+.cardid
+{
+	color: white;
+	
 }
 
 /* Dropdown Content (Hidden by Default) */

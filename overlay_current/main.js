@@ -85,7 +85,10 @@ function funnyhint(event)
 	console.log('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=funny&sortBy=",sorttype));
 	axios.get('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=funny&sortBy=",sorttype)).then((response) =>
 	{
-		document.getElementById("hint").textContent = response.content;
+		console.log(JSON.stringify(response));
+		console.log(response.data.hints[0].content);
+		document.getElementById("hint").textContent = response.data.hints[0].content;
+		document.getElementById("funnyvotes").textContent = "Funny Votes: " + response.data.hints[0].funny;
 		activehintid = response.id
 	});	
 	
@@ -100,7 +103,8 @@ function helpfulhint(event)
 	console.log('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=helpful&sortBy=",sorttype));
 	axios.get('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=helpful&sortBy=",sorttype)).then((response) =>
 	{
-		document.getElementById("hint").textContent = response.content;
+		document.getElementById("hint").textContent = response.data.hints[0].content;
+		document.getElementById("helpfulvotes").textContent = "Helpful Votes: " + response.data.hints[0].helpful;
 		activehintid = response.id
 	});
 	
