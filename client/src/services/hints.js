@@ -42,7 +42,7 @@ const add = async newHint => {
     });
 }
 
-const update = (hintId, vote) => {
+const update = async (hintId, vote) => {
    const newUrl = baseUrl + '/' +  hintId;
    //vote is either 'funny', 'notfunny', 'helpful', 'nothelpful'
    const response = axios.put(newUrl,
@@ -65,7 +65,7 @@ const update = (hintId, vote) => {
    });
 }
 
-const report = (hintId) => {
+const report = async hintId => {
   const newUrl = '/api/report/' + hintId;
   const response = axios.post(newUrl, {
       headers: {Authorization: "Bearer " + token}
