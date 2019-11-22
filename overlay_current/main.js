@@ -4,7 +4,7 @@ const path = require('path')
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');	
 const request = require('request');	
-var sorttype = "/new/"
+var sorttype = "new"
 
 
 
@@ -78,13 +78,13 @@ function addhelpful(event)
 
 {
 	
-	axios.put('https://hawkshot.herokuapp.com/'.concat("hints/",activehintid,"/helpful"));	
+	axios.put('https://hawkshot.herokuapp.com/?'.concat("hints=",activehintid,"/helpful"));	
 }
 
 function addfunny(event)
 
 {
-	axios.put('https://hawkshot.herokuapp.com/'.concat("hints/",activehintid,"/funny"));
+	axios.put('https://hawkshot.herokuapp.com/'.concat("hints=",activehintid,"/funny"));
 }
 
 
@@ -94,8 +94,9 @@ function addfunny(event)
 function funnyhint(event)
 {
 	//displays a funny hint with current cardID and sort
-	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID');
-	axios.get('http://hawkshot.herokuapp.com/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
+	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID'); //line below prints url for testing
+	console.log('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=funny&sortBy=",sorttype));
+	axios.get('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=funny&sortBy=",sorttype)).then((response) =>
 	{
 		document.getElementById("hint").textContent = response.content;
 		activehintid = response.id
@@ -108,8 +109,9 @@ function funnyhint(event)
 function helpfulhint(event)
 {
 	//displays a helpful with current cardID and sort
-	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID');
-	axios.get('http://hawkshot.herokuapp.com/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
+	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID'); //line below prints url for testing
+	console.log('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=helpful&sortBy=",sorttype));
+	axios.get('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=helpful&sortBy=",sorttype)).then((response) =>
 	{
 		document.getElementById("hint").textContent = response.content;
 		activehintid = response.id
