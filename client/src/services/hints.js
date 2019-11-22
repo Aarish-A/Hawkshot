@@ -23,9 +23,8 @@ const get = args => {
 }
 
 const getVotes = async (userId) => {
-  const request = axios.get('/api/votes', {params: {'ownerId': userId}})
-  request.then(response => console.log(response.data))
-  // return request.then(response => response.data)
+  const request = axios.get('/api/votes', {params: {ownerId: userId}})
+  return request.then(response => response.data)
 }
 
 const add = async newHint => {
