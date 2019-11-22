@@ -30,9 +30,9 @@ const HintCard = ({hint}) => {
    const [votedOn, setVotedOn] = useState({funny: [], helpful: [], report: []})
 
    useEffect(() => {
-
-      // get voted ons
-
+      hintService
+         .getVotes()
+         .then(votes => setVotedOn(votes))
    }, [])
 
    const handleFunnyClick = event => {
