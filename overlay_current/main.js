@@ -1,4 +1,4 @@
-// Modules to control application life and create native browser window
+// Modules to control application life and create native browser window, also contains displaywindow functions
 const {app, BrowserWindow, screen, ipcMain} = require('electron')
 const path = require('path')
 var axios = require('axios');
@@ -6,20 +6,12 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 var sorttype = "new"
 
 
-
-
-//TODO (in order):
-//fix ipcrenderer
-//add auth for client voting if needed
-//add client voting post requests
-
 let mainWindow
 let overlayWindow
-global.cardmessage = {
-  message: 'default value'
-}
 
-function createWindow () {
+
+
+function createWindow () { //inits
 
  
 let activehintid
@@ -49,8 +41,6 @@ let height = display.bounds.height;
 	  webPreferences: {
       preload: path.join(__dirname, 'preload.js') 	  
 		}
-	  
-		
 	  
 	  
   })
@@ -87,13 +77,11 @@ function addfunny(event)
 }
 
 
-//get requests from api: assuming format of url/cardID/sorttype (helpful,funny,new) /previous if previous
-//change if needed, at time of writing api isn't up on heroku
 
 function funnyhint(event)
 {
 	//displays a funny hint with current cardID and sort
-	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID'); //line below prints url for testing
+	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID'); //this line pulls the cardID from localstorage, line below prints get request url for testing
 	console.log('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=funny&sortBy=",sorttype));
 	axios.get('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=funny&sortBy=",sorttype)).then((response) =>
 	{
@@ -108,7 +96,7 @@ function funnyhint(event)
 function helpfulhint(event)
 {
 	//displays a helpful with current cardID and sort
-	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID'); //line below prints url for testing
+	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID'); //this line pulls the cardID from localstorage, line below prints get request url for testing
 	console.log('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=helpful&sortBy=",sorttype));
 	axios.get('http://hawkshot.herokuapp.com/api/hints?'.concat("cardId=",document.getElementById("currcard").textContent,"&limit=1&sortCat=helpful&sortBy=",sorttype)).then((response) =>
 	{
@@ -146,8 +134,6 @@ function sortnew(event)
 	
 	
 }
-
-
 
 
 

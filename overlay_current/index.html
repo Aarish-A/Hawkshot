@@ -3,15 +3,10 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
-	
 		
     <title>Hawkshot</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link href="stylesheet.css" rel="stylesheet">
-	
 	
   </head>
   <body class = "displaybody">
@@ -31,30 +26,17 @@
 	<p id="hint">Hover over a card to display its hints</p>
 	<p id="currcard"> Current card ID</p>
 	
-  
-  
-
-    
-	
+   
+	<!-- menu buttons -->
 	<button  class="btn btn-primary" onclick="funnyhint(event);">Funny Hint</button> 
 	<button class="btn btn-primary" onclick="helpfulhint(event);">Helpful Hint</button> 
 	 <button class="btn btn-primary" onclick="addfunny(event);">Vote Funny</button> 
 	 <button class="btn btn-primary" onclick="addhelpful(event);">Vote Helpful</button> 
-	 
-
-	 
-	
-	  
-
-
-	 
+ 
 	 
     <!-- required js files -->
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="./main.js"></script>
 
-	
-    
-	
   </body>
 </html>

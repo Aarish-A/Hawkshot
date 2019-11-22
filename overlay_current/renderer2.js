@@ -1,7 +1,7 @@
 var axios = require('axios');
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
-
+//js renderer for empty window (referred to as overlayWindow)
 
 
 function readhover(event) //gets the x and y positions of the mouse, then runs getcardcode with those positions
@@ -17,7 +17,8 @@ axios.get('http://localhost:21337/positional-rectangles').then((response) =>
 
 	positionobject = response
 	document.getElementById("name").textContent = getcardcode(positionobject, xpos, ypos);
-	localStorage.setItem('currentcardID', document.getElementById("name").textContent);
+	localStorage.setItem('currentcardID', document.getElementById("name").textContent); 
+	//puts the card in a localstorage object for the display to access
 	
 	
 	
