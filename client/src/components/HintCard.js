@@ -27,13 +27,20 @@ const useStyles = makeStyles(theme => ({
    }
 }))
 
-const HintCard = ({hint, firebase}) => {
+const HintCard = withFirebase(({hint, firebase}) => {
    const [votedOn, setVotedOn] = useState({funny: [], helpful: [], report: []})
+   const [userAuth, setUserAuth] = useState(null)
 
    useEffect(() => {
-      hintService
-         .getVotes(firebase.auth ? firebase.uid : null)
-         .then(votes => setVotedOn(votes ? votes : {funny: [], helpful: [], report: []}))
+      firebase.auth.onAuthStateChanged(user => {
+         user ? setUserAuth(user) : setUserAuth(null)
+
+         hintService
+            .getVotes(firebase.auth ? firebase.auth.currentUser.uid : null)
+            .then(votes => setVotedOn(votes ? votes : {funny: [], helpful: [], report: []}))
+
+         console.log()
+      })   
    }, [])
 
    const handleFunnyClick = event => {
@@ -137,6 +144,6 @@ const HintCard = ({hint, firebase}) => {
          </Grid>
       </Paper>
    )
-}
+})
 
-export default withFirebase(HintCard)
+export default HintCard
