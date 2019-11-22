@@ -1,1 +1,1 @@
-web: cd client && npm run build-with-server  
+web: cd client && npm run build-with-gunicorn 
