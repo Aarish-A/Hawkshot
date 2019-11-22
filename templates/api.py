@@ -13,9 +13,7 @@ if cert_json.is_file():
     print("Loading app from file... ")
     cred = credentials.Certificate("hawkshot-e7e56-firebase-adminsdk-1zawp-35a7f1dc88.json")
 else:
-
     print("Loading app from environment variables... (this is probably Heroku)")
-    s3 = S3
     cred = credentials.Certificate({
         "type": "service_account",
         "project_id": os.environ.get('PROJECT_ID'),
