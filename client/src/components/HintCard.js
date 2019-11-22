@@ -127,7 +127,7 @@ const HintCard = ({hint}) => {
                      </div>
                      <div style = {{display: 'inline', marginLeft: '5px'}}>
                         <IconButton onClick = {handleReportClick}>
-                           <ReportOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id) ? 'error' : 'default'}/>
+                           <ReportOutlinedIcon color = {votedOn.report.find(id => id === hint.id) ? 'error' : 'default'}/>
                         </IconButton>
                      </div>
                   </Grid>
