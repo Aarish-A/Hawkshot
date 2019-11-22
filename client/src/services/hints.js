@@ -23,7 +23,7 @@ const get = args => {
 }
 
 const getVotes = async (userId) => {
-  const request = axios.get('/api/votes', {params: {userId: userId}})
+  const request = axios.get('/api/votes', {params: {'ownerId': userId}})
   request.then(response => console.log(response.data))
   // return request.then(response => response.data)
 }
@@ -52,10 +52,14 @@ const add = async newHint => {
 const update = async (hintId, vote) => {
    const newUrl = baseUrl + '/' +  hintId;
    //vote is either 'funny', 'notfunny', 'helpful', 'nothelpful'
+  console.log("hintId ", vote);
    const response = axios.put(newUrl,
      {
        params: {type: vote},
-       headers:{Authorization: "Bearer " + token}
+       headers: {
+         'Content-Type': 'application/json',
+         Authorization: "Bearer " + token
+       }
      }
    ).then(response => {
      console.log("update hint", response.data);
