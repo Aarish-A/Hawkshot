@@ -22,6 +22,15 @@ const get = args => {
    return request.then(response => response.data.hints)
 }
 
+const getVotes = async () => {
+  const request = axios.get('/api/votes', {
+    headers: {
+      Authorization: 'Bearer ' + token
+    }
+  })
+  return request.then(response => response.data)
+}
+
 const add = async newHint => {
   const response = axios.post(baseUrl, newHint, {
       headers: {
@@ -88,6 +97,7 @@ const report = async hintId => {
 
 export default {
    get,
+   getVotes,
    add,
    update,
    report,
