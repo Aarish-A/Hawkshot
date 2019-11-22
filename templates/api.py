@@ -44,7 +44,6 @@ def PostHint(data):
 
 # GET /api/hints
 def GetHint(data):
-
     ref = db.collection(u'hints')
     query = ref
     query = query.limit(int(data['limit']))

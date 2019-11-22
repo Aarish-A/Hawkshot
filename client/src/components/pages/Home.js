@@ -1,127 +1,166 @@
-/* React Dependencies */
 import React, { useState, useEffect } from 'react';
 import { withFirebase } from '../firebase';
 
-/* React-Bootstrap Dependencies */
-import {
-    Container,
-    Row,
-    Form,
-    FormControl,
-    Button,
-    ButtonGroup,
-    ButtonToolbar,
-} from 'react-bootstrap'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import Modal from '@material-ui/core/Modal'
+import Container from '@material-ui/core/Container'
+import Grid from '@material-ui/core/Grid'
+import TextField from '@material-ui/core/TextField' // STYLES IMPORTED... LEAVE HERE
+import Autocomplete from '@material-ui/lab/Autocomplete' // STYLES IMPORTED... LEAVE HERE
+import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/paper'
+import IconButton from '@material-ui/core/IconButton'
+import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
+import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
 
-/* Components */
-import HintBlock from '../HintBlock'
-import HintForm from '../HintForm'
+import CardSearchbar from '../input/CardSearchbar'
+import CategoryButtons from '../input/CategoryButtons'
+import SortButtons from '../input/SortButtons'
+import TypeButtons from '../input/TypeButtons'
+import HintSubmissionForm from '../forms/HintSubmissionForm';
+import HintCard from '../HintCard'
 
-/* Services */
 import hintService from '../../services/hints'
 
-const Home = withFirebase(props => {
+const useStyles = makeStyles(theme => ({
+   root: {
+      flexGrow: 1,
+      minWidth: '100%',
+      padding: '0',
+      margin: '0 0 0 0'
+   },
+   gridItem: {
+      margin: '0.5em 0.5em',
+      textAlign: 'center',
+      overflowWrap: 'hyphens'
+   },
+   searchbar: {
+      margin: '0',
+      padding: '0',
+      minWidth: '100%',
+   },
+   submitButton: {
+      height: '50px'
+   },
+   submissionModal: {
+      height: '85%',
+      width: '85%',
+      margin: 'auto',
+   },
+   submissionModalPaper: {
+      padding: '3em'
+   },
+   buttonGroup: {
+      margin: '0 1.5em',
+      marginBottom: '1em'
+   },
+   paper: {
+      height: '250px',
+      width: '460px'
+   },
+   cardImage: {
+      height: '250px'
+   }
+}))
 
-   const [hintParams, setHintParams] = useState({
-      cardId: null,
-      cardName: null,
-      ownerId: null,
-      ownerName: null,
-      limit: 5,
-      hintId: null,
-      sortBy: null,
-      sortCat: null,
-      sortType: null,
-   })
-
+const Home = ({firebase}) => {
    const [hints, setHints] = useState([])
+   const [category, setCategory] = useState('all')
+   const [sort, setSort] = useState('popular') 
+   const [type, setType] = useState('hints')
+   const [search, setSearch] = useState('')
+   const [searchItem, setSearchItem] = useState('')
+   const [openSubmission, setOpenSubmission] = useState(false)
 
    useEffect(() => {
       hintService
-         .get(hintParams)
+         .get()
          .then(initialHints => setHints(initialHints))
    }, [])
+   
+   const classes = useStyles()
 
-   const changeSort = newSort => () => {
-      const newHintParams = {
-         ...hintParams,
-         ...newSort
+   const changedFilter = (filterParam, filterParamArg) => {
+      let filterParams = {
+         cardName: searchItem ? searchItem.name : '',
+         sortCat: category,
+         sortBy: sort,
+         type: type,
       }
+      filterParams[filterParam] = filterParamArg
 
-      setHintParams(newHintParams)
       hintService
-         .get(newHintParams)
+         .get(filterParams)
          .then(hints => setHints(hints))
-         .then(console.log('Set new hints!', newHintParams))
    }
 
-   return(
-      <>
-         <div>
-            <Form inline>
-               <FormControl type = 'text' placeholder = 'Search' className = 'mr-sm-2' style = {{width: '80%', marginLeft: '10px'}}/>
-               <h5 style = {{width: '5%'}}>OR</h5>
-               <HintForm style = {{width: '10%'}}/>
-               {/* <Button style = {{width: '10%'}}>Submit a Hint</Button> */}
-            </Form>
-         </div>
-         <div>
-            <Container fluid>
-               <Row>
-                  <h3>Sort by:</h3>
-                  <ButtonToolbar>
-                     <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({sortCat : 'all'})}>
-                           All
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({sortCat : 'funny'})}>
-                           Funny
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({sortCat : 'helpful'})}>
-                           Helpful
-                        </Button>
-                     </ButtonGroup>
-                     <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({sortBy : 'popular'})}>
-                           Popular
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({sortBy : 'recent'})}>
-                           Recent
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({sortBy : 'trending'})}>
-                           Trending
-                        </Button>
-                     </ButtonGroup>
-                     <ButtonGroup className = 'mr-2' size = 'lg'>
-                        <Button variant = 'secondary' onClick = {changeSort({type : 'hints'})}>
-                           All Hints
-                        </Button>
-                        <Button variant = 'secondary' onClick = {changeSort({type: 'cards'})}>
-                           All Cards
-                        </Button>
-                     </ButtonGroup>
-                  </ButtonToolbar>
-               </Row>
-            </Container>
-         </div>
-         <div>
-            <Container fluid>
-               <Row>
-                  {
-                     hints.map(hint =>
-                        <div key = {hint.id} style = {{width: '50%'}}>
-                           <HintBlock
-                              key = {hint.id}
-                              hint = {hint}
-                           />
-                        </div>
-                     )
-                  }
-               </Row>
-            </Container>
-         </div>
-      </>
-    )
-})
+   const handleCategoryChange = (event, newCategory) => {setCategory(newCategory); changedFilter('sortCat', newCategory)}
+   const handleSortChange = (event, newSort) => {setSort(newSort); changedFilter('sortBy', newSort)}
+   const handleTypeChange = (event, newType) => {setType(newType); changedFilter('type', newType)}
+   const handleSearchbarChange = (event, newSearch) => {setSearch(newSearch); changedFilter(); console.log('bruh')}
+   const handleSearchItemChange = (event, newSearchItem) => {setSearchItem(newSearchItem); changedFilter('cardName', newSearchItem ? newSearchItem.name : '')}
+   const handleOpenSubmission = () => setOpenSubmission(true)
+   const handleCloseSubmission = () => setOpenSubmission(false)
 
-export default Home;
+   const getHintCards = () => {
+      return hints.map(hint => {
+         return (
+            <Grid item key = {hint.id} className = {classes.gridItem}>
+               <HintCard hint = {hint}/>
+            </Grid>
+         )
+      })
+   }
+
+   return (
+      <Container component = 'div' className = {classes.root} spacing = {0}>
+         <Modal
+            open = {openSubmission}
+            onClose = {handleCloseSubmission}
+            onEscapeKeyDown = {handleCloseSubmission}
+            onBackdropClick = {handleCloseSubmission}
+            className = {classes.submissionModal}
+         >
+            <Paper className = {classes.submissionModalPaper}>
+               <HintSubmissionForm handleCloseSubmission = {handleCloseSubmission}/>
+            </Paper>
+         </Modal>
+
+         <Grid container direction = 'column' justify = 'center'>
+            <Grid item className = {classes.gridItem} style = {{height: '75px'}}>
+               <Grid container spacing = {1} justify = 'center' alignItems = 'center'>
+                  <Grid item sm = {9} className = {classes.gridItem}>
+                     <CardSearchbar
+                        className = {classes.searchbar}
+                        inputValue = {search}
+                        onInputChange = {handleSearchbarChange}
+                        input = {searchItem}
+                        onChange = {handleSearchItemChange}
+                     />
+                  </Grid>
+                  <Grid item className = {classes.gridItem}>
+                     <Button onClick = {handleOpenSubmission} variant = 'contained' color = 'secondary' className = {classes.submitButton}>
+                        <Typography variant = 'button'>
+                           Submit a Hint
+                        </Typography>
+                     </Button>
+                     
+                  </Grid>
+               </Grid>
+            </Grid>
+            <Grid item className = {classes.gridItem}>
+               <CategoryButtons category = {category} handleCategoryChange = {handleCategoryChange}/>
+               <SortButtons sort = {sort} handleSortChange = {handleSortChange}/>
+               <TypeButtons type = {type} handleTypeChange = {handleTypeChange}/>
+            </Grid>
+         </Grid>
+         <Grid container justify = 'center'>
+            {getHintCards()}
+         </Grid>
+      </Container>   
+   )
+}
+
+export default withFirebase(Home)
