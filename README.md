@@ -31,10 +31,11 @@ The overlay is built using Electron, and also takes advantage of Google Firebase
 
 ## Next Steps
 
-* Add more features to in-game client
+* Add more features and clean up design for in-game client
 * Ability to see, delete or edit one’s own hints
 * More comprehensive profanity filter
 * Separating hints by who owns them (you vs. your opponent)
+* Add infinite scrolling to hints (currently capped at X most popular/newest hints)
 
 _________________________________________________________________
 Hawkshot isn’t endorsed by Riot Games and doesn’t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
