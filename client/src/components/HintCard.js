@@ -32,7 +32,7 @@ const HintCard = ({hint}) => {
          <Grid container justify = 'flex-start'>
             <Grid item className = {classes.gridItem} style = {{marginTop: '0'}}>
                   <img 
-                     src = {require(`../assets/data_dragon/en_us/img/cards/${hint.cardId}.png`)}
+                     src = {`https://lor.mln.cx/Set1/en_us/img/cards/${hint.cardId}.png`}
                      alt = 'cannot load'
                      className = {classes.cardImage}
                   />
