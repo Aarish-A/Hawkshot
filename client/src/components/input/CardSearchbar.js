@@ -43,7 +43,8 @@ const CardSearchbar = ({
       return {
          name: card.name, 
          region: card.region,
-         cardCode: card.cardCode
+         cardCode: card.cardCode,
+         leveledUp: card.supertype === 'Champion' && card.collectible === false
       }
    })
 
@@ -51,7 +52,7 @@ const CardSearchbar = ({
       <Autocomplete
          className = {classes.searchbar}
          options = {cardOptions}
-         getOptionLabel = {card => card.name}
+         getOptionLabel = {card => card.leveledUp ? card.name + ' [Levelled Up]' : card.name}
          groupBy = {card => card.region}
          renderInput = {params => (
             <TextField {...params} className = {classes.textArea} label = 'Search for a Card' variant = 'outlined'/>

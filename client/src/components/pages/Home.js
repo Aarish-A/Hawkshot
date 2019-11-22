@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
       overflowWrap: 'hyphens'
    },
    searchbar: {
-      margin: '0',
+      marginTop: '1em',
       padding: '0',
       minWidth: '100%',
       maxHeight: '790px'

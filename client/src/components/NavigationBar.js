@@ -16,7 +16,7 @@ const SignupLink = React.forwardRef((props, ref) => <RouterLink innerRef={ref} {
 const useStyles = makeStyles(theme => ({
    root: {
       flexGrow: 1,
-      background: '#f8f8f8',
+      background: '#ebc600',
       padding: '1em',
       margin: '0',
    },
@@ -63,7 +63,7 @@ const NavigationBar = ({firebase, userAuth}) => {
                      Hi, <strong>{firebase.auth.currentUser.displayName}</strong>!
                   </Typography>
                </Button>
-               <Button variant = 'text' >
+               <Button variant = 'text' style = {{color: 'black'}}>
                   <Typography variant = 'button' onClick={firebase.signOut}>Sign Out</Typography>
                </Button>
             </div>
