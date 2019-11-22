@@ -38,7 +38,7 @@ const ReportForm = ({handleCloseSubmission, hint}) => {
    const onFormSubmit = event => {
       event.preventDefault()
       hintService
-         .report(content, hint.hintId)
+         .report(content, hint.id)
          .then(response => {
             setContent('')
             setFormError(null)
@@ -51,11 +51,11 @@ const ReportForm = ({handleCloseSubmission, hint}) => {
          })
    };
 
-   const invalidForm = !content  
+   const invalidForm = !content
    const errorMessage = formError ? formError.message : ''
 
    return (
-      showForm ? 
+      showForm ?
 
       <Grid container direction = 'column'>
          <TextField
@@ -79,10 +79,10 @@ const ReportForm = ({handleCloseSubmission, hint}) => {
             value = {content}
             onChange = {onContentChange}
          />
-         <Fab 
-            type = 'submit' 
+         <Fab
+            type = 'submit'
             variant = 'extended'
-            color = 'primary' 
+            color = 'primary'
             className = {classes.submitButton}
             disabled = {invalidForm}
             onClick = {onFormSubmit}
