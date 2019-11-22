@@ -78,13 +78,13 @@ function addhelpful(event)
 
 {
 	
-	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"/helpfulVotes"));	
+	axios.put('https://hawkshot.herokuapp.com/'.concat("hints/",activehintid,"/helpful"));	
 }
 
 function addfunny(event)
 
 {
-	axios.put('https://hawkshot.herokuapp.com/'.concat(activehintid,"/funnyVotes"));
+	axios.put('https://hawkshot.herokuapp.com/'.concat("hints/",activehintid,"/funny"));
 }
 
 
@@ -95,7 +95,7 @@ function funnyhint(event)
 {
 	//displays a funny hint with current cardID and sort
 	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID');
-	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
+	axios.get('http://hawkshot.herokuapp.com/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
 		document.getElementById("hint").textContent = response.content;
 		activehintid = response.id
@@ -109,7 +109,7 @@ function helpfulhint(event)
 {
 	//displays a helpful with current cardID and sort
 	document.getElementById("currcard").textContent = localStorage.getItem('currentcardID');
-	axios.get('http://localhost:5000/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
+	axios.get('http://hawkshot.herokuapp.com/'.concat("cardId=",document.getElementById("currcard").textContent,"/limit=1/sortCat=Funny/sortby=",sorttype)).then((response) =>
 	{
 		document.getElementById("hint").textContent = response.content;
 		activehintid = response.id
