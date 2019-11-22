@@ -10,6 +10,7 @@ import Home from './components/pages/Home'
 import LoginPage from './components/pages/Login'
 import SignupPage from './components/pages/SignUp'
 import NavigationBar from './components/NavigationBar.js'
+import Footer from './components/Footer'
 
 import hintService from './services/hints'
 
@@ -31,6 +32,7 @@ const App = ({firebase}) => {
             <Route exact path = '/' render = {() => <Home/>} />
             <Route exact path = '/login' render = {() => <LoginPage/>} />
             <Route exact path = '/signup' render = {() => <SignupPage/>} />
+            <Footer/>
          </Router>
       </>
    )
