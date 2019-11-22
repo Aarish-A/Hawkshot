@@ -22,13 +22,10 @@ const get = args => {
    return request.then(response => response.data.hints)
 }
 
-const getVotes = async () => {
-  const request = axios.get('/api/votes', {
-    headers: {
-      Authorization: 'Bearer ' + token
-    }
-  })
-  return request.then(response => response.data)
+const getVotes = async (userId) => {
+  const request = axios.get('/api/votes', {params: {userId: userId}})
+  request.then(response => console.log(response.data))
+  // return request.then(response => response.data)
 }
 
 const add = async newHint => {

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import {withFirebase} from './firebase'
 
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import Grid from '@material-ui/core/Grid'
@@ -26,13 +27,13 @@ const useStyles = makeStyles(theme => ({
    }
 }))
 
-const HintCard = ({hint}) => {
+const HintCard = ({hint, firebase}) => {
    const [votedOn, setVotedOn] = useState({funny: [], helpful: [], report: []})
 
    useEffect(() => {
       hintService
-         .getVotes()
-         .then(votes => setVotedOn(votes))
+         .getVotes(firebase.auth ? firebase.uid : null)
+         .then(votes => setVotedOn(votes ? votes : {funny: [], helpful: [], report: []}))
    }, [])
 
    const handleFunnyClick = event => {
@@ -117,17 +118,17 @@ const HintCard = ({hint}) => {
                   <Grid item className = {classes.gridItem} style = {{position: 'absolute', bottom: '0px', left: '-5px', marginRight: '0', borderTop: '1px black solid', width: '262px'}}>
                      <div style = {{display: 'inline', marginRight: '94px'}}>
                         <IconButton onClick = {handleFunnyClick}>
-                           <InsertEmoticonIcon color = {votedOn.funny.find(id => id === hint.id) ? 'primary' : 'default'}/>
+                           <InsertEmoticonIcon color = {votedOn.funny.find(id => id === hint.id) ? 'primary' : 'action'}/>
                         </IconButton>
                         <Typography variant = 'button' display = 'inline'>{hint.funny}</Typography>
                         <IconButton onClick = {handleHelpfulClick}>
-                           <ThumbUpAltOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id ? 'primary' : 'default')}/>
+                           <ThumbUpAltOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id ? 'primary' : 'action')}/>
                         </IconButton>
                         <Typography variant = 'button' display = 'inline'>{hint.helpful}</Typography>
                      </div>
                      <div style = {{display: 'inline', marginLeft: '5px'}}>
                         <IconButton onClick = {handleReportClick}>
-                           <ReportOutlinedIcon color = {votedOn.report.find(id => id === hint.id) ? 'error' : 'default'}/>
+                           <ReportOutlinedIcon color = {votedOn.report.find(id => id === hint.id) ? 'error' : 'action'}/>
                         </IconButton>
                      </div>
                   </Grid>
@@ -138,4 +139,4 @@ const HintCard = ({hint}) => {
    )
 }
 
-export default HintCard
+export default withFirebase(HintCard)
