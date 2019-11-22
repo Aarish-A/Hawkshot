@@ -30,6 +30,7 @@ const useStyles = makeStyles(theme => ({
 const HintCard = withFirebase(({hint, firebase}) => {
    const [votedOn, setVotedOn] = useState({funny: [], helpful: [], report: []})
    const [userAuth, setUserAuth] = useState(null)
+   const classes = useStyles()
 
    useEffect(() => {
       firebase.auth.onAuthStateChanged(user => {
@@ -38,8 +39,6 @@ const HintCard = withFirebase(({hint, firebase}) => {
          hintService
             .getVotes(firebase.auth ? firebase.auth.currentUser.uid : null)
             .then(votes => setVotedOn(votes ? votes : {funny: [], helpful: [], report: []}))
-
-         console.log()
       })   
    }, [])
 
@@ -99,9 +98,6 @@ const HintCard = withFirebase(({hint, firebase}) => {
       } 
    }
 
-
-   const classes = useStyles()
-
    return (
       <Paper className = {classes.paper}>
          <Grid container justify = 'flex-start'>
@@ -129,7 +125,7 @@ const HintCard = withFirebase(({hint, firebase}) => {
                         </IconButton>
                         <Typography variant = 'button' display = 'inline'>{hint.funny}</Typography>
                         <IconButton onClick = {handleHelpfulClick}>
-                           <ThumbUpAltOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id ? 'primary' : 'action')}/>
+                           <ThumbUpAltOutlinedIcon color = {votedOn.helpful.find(id => id === hint.id) ? 'primary' : 'action'}/>
                         </IconButton>
                         <Typography variant = 'button' display = 'inline'>{hint.helpful}</Typography>
                      </div>
