@@ -2,7 +2,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 
 const MuiTheme = createMuiTheme({
    palette : {
-      type: 'light'
+      type: 'dark'
    },
    typography: {
       fontFamily: [
