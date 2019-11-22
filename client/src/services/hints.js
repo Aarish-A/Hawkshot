@@ -81,7 +81,10 @@ const report = async (reason, hintId) => {
       content: reason,
       hintId: hintId,
   }, {
-      headers: {Authorization: "Bearer " + token}
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + token
+      }
     }
   ).then(response => {
     console.log("Reported Hint", response.data);
