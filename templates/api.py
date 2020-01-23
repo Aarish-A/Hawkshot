@@ -127,7 +127,7 @@ def UpdateHint(hintId, userId, type):
         if not helpful_dict:
             hint_ref.update({u'helpful':transforms.Increment(1)})
             helpful_ref.set({userId: True})
-        elif not helpful_dict[userId]:
+        elif userId not in helpful_dict:
             hint_ref.update({u'helpful':transforms.Increment(1)})
             helpful_ref.update({userId: True})
         else:
@@ -141,7 +141,7 @@ def UpdateHint(hintId, userId, type):
         if not funny_dict:
             hint_ref.update({u'funny':transforms.Increment(1)})
             funny_ref.set({userId: True})
-        elif not funny_dict[userId]:
+        elif userId not in funny_dict:
             hint_ref.update({u'funny':transforms.Increment(1)})
             funny_ref.update({userId: True})
         else:

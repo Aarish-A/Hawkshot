@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
    },
    cardImage: {
       height: '250px'
-   },   
+   },
    submissionModal: {
       height: '85%',
       width: '85%',
@@ -51,7 +51,7 @@ const HintCard = withFirebase(({hint, firebase}) => {
          hintService
             .getVotes(firebase.auth ? firebase.auth.currentUser.uid : null)
             .then(votes => setVotedOn(votes ? votes : {funny: [], helpful: [], report: []}))
-      })   
+      })
    }, [])
 
    const handleOpenSubmission = () => setOpenSubmission(true)
@@ -110,7 +110,7 @@ const HintCard = withFirebase(({hint, firebase}) => {
                const arr = votedOn.report.concat(hint.id)
                setVotedOn({...votedOn, report: arr})
             })
-      } 
+      }
    }
 
    return (
@@ -129,7 +129,7 @@ const HintCard = withFirebase(({hint, firebase}) => {
          <Paper className = {classes.paper}>
             <Grid container justify = 'flex-start'>
                <Grid item className = {classes.gridItem} style = {{marginTop: '0'}}>
-                     <img 
+                     <img
                         src = {`https://lor.mln.cx/Set1/en_us/img/cards/${hint.cardId}.png`}
                         alt = 'cannot load'
                         className = {classes.cardImage}

@@ -69,7 +69,7 @@ def report_hint(hintId):
         return Response('failed', 'Unauthorized', 401)
     if not request.content_type == 'application/json':
         return Response('failed', 'content_type must be application/json', 401)
-        
+
     result = request.get_json()
     result['hintId'] = hintId
     result['ownerId'] = claims['user_id']
