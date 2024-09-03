@@ -3,7 +3,7 @@ cachetools==3.1.1
 Click==7.0
 firebase-admin==3.2.0
 Flask==1.1.1
-Flask-Cors==3.0.8
+Flask-Cors==5.0.0
 gcloud==0.17.0
 google-api-core==1.14.3
 google-api-python-client==1.7.11
